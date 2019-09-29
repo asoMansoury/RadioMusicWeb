@@ -1,23 +1,18 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import PhoneIcon from '@material-ui/icons/Phone';
-import Button from '@material-ui/core/Button';
+import SignInIcon from '@material-ui/icons/VpnKey';
+import SignUpIcon from '@material-ui/icons/AccountBox';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import SingInComponent from './SignInComponent';
+import SingUpComponent from './SignUpComponent';
+import ForgotPassword from './ForgotPassword';
 const useStyles = makeStyles(theme =>({
     root:{
         height:'100vh'
@@ -63,18 +58,7 @@ function TabPanel(props){
   </Typography>
 }
 
-function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+
 
 
 export default function SignIn(){
@@ -86,7 +70,9 @@ export default function SignIn(){
     }
     return (
         <div className={classes.root}>
+
             <Grid container component='main' className={classes.root}>
+
                 <CssBaseline></CssBaseline>
                 <Grid item xs={false} sm={4} md={7} className={classes.image}></Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper}>
@@ -99,134 +85,17 @@ export default function SignIn(){
                         textColor="primary"
                         aria-label="scrollable force tabs example"
                     >
-                        <Tab label="Sign In" icon={<PhoneIcon></PhoneIcon>} style={{width:"50%"}}></Tab>
-                        <Tab label="Sign Out" icon={<PhoneIcon></PhoneIcon>} style={{width:"50%"}}></Tab>
+                        <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{width:"50%"}}></Tab>
+                        <Tab label="Sign Out" icon={<SignUpIcon></SignUpIcon>} style={{width:"50%"}}></Tab>
                     </Tabs>
                     </AppBar>
+                    <ForgotPassword></ForgotPassword>
                     <TabPanel value={value} index={0}>
-                        <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon></LockOutlinedIcon>
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                required
-                                margin="normal"
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            ></TextField>
-                            <TextField 
-                                variant="outlined"
-                                required
-                                margin="normal"
-                                security
-                                fullWidth
-                                id="password"
-                                label = "Password"
-                                name="password"
-                                autoComplete="current-password">
-                            </TextField>
-                            <FormControlLabel
-                                control={<Checkbox value="remember"  color="primary"></Checkbox>}
-                                label="Remember me"
-                            ></FormControlLabel>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant ="body2">
-                                    Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant ="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                            <Box mt={5}>
-                                <Copyright />
-                            </Box>
-                        </form>
-                    </div>
-                    
+                        <SingInComponent></SingInComponent>
+
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon></LockOutlinedIcon>
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign Out
-                        </Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                required
-                                margin="normal"
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            ></TextField>
-                            <TextField 
-                                variant="outlined"
-                                required
-                                margin="normal"
-                                security
-                                fullWidth
-                                id="password"
-                                label = "Password"
-                                name="password"
-                                autoComplete="current-password">
-                            </TextField>
-                            <FormControlLabel
-                                control={<Checkbox value="remember"  color="primary"></Checkbox>}
-                                label="Remember me"
-                            ></FormControlLabel>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant ="body2">
-                                    Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant ="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                            <Box mt={5}>
-                                <Copyright />
-                            </Box>
-                        </form>
-                    </div>             
+                        <SingUpComponent></SingUpComponent>           
                     </TabPanel>
                 </Grid>
             </Grid>

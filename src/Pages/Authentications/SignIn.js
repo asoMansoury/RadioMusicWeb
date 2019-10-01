@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useRef,useImperativeHandle,forwardRef} from 'react';
+import {useTheme} from '@material-ui/core/styles'
 import SignInIcon from '@material-ui/icons/VpnKey';
 import SignUpIcon from '@material-ui/icons/AccountBox';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import SingInComponent from './SignInComponent';
 import SingUpComponent from './SignUpComponent';
 import ForgotPassword from './ForgotPassword';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Copyright from './../CommonComponents/CopyRight';
+import Link from '@material-ui/core/Link';
+
 const useStyles = makeStyles(theme =>({
     root:{
         height:'100vh'
@@ -43,6 +48,8 @@ const useStyles = makeStyles(theme =>({
     }
 }));
 
+
+
 function TabPanel(props){
     const {children,value,index,...other} = props;
 
@@ -61,41 +68,85 @@ function TabPanel(props){
 
 
 
-export default function SignIn(){
+const  SignIn=()=>{
+    const myRef = React.createRef();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-
+    const theme = useTheme();
     const handleChange =(event,newValue)=>{
         setValue(newValue);
     }
+
+    const isSMMode =useMediaQuery(theme.breakpoints.down('sm'));
+    const [isShowModal,setIsShowModal] = React.useState(false);
+    const  handleClickModal =()=>{
+        setIsShowModal(true);
+    }
+
+    const  handleCloseModal =()=>{
+        setIsShowModal(false);
+    }
+    
+
+    
+    
     return (
         <div className={classes.root}>
-
             <Grid container component='main' className={classes.root}>
-
+            <ForgotPassword  ref={myRef} isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
                 <CssBaseline></CssBaseline>
-                <Grid item xs={false} sm={4} md={7} className={classes.image}></Grid>
-                <Grid item xs={12} sm={8} md={5} component={Paper}>
-                <AppBar position="static" color="default">
-                    <Tabs 
-                        value={value}
-                        onChange={handleChange}
-                        scrollButtons="on"
-                        indicatorColor="primary"
-                        textColor="primary"
-                        aria-label="scrollable force tabs example"
-                    >
-                        <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{width:"50%"}}></Tab>
-                        <Tab label="Sign Out" icon={<SignUpIcon></SignUpIcon>} style={{width:"50%"}}></Tab>
-                    </Tabs>
+                <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
+                <Grid item xs={12} sm={8} md={6} component={Paper}>
+                    <AppBar position="static" color="default">
+                            <Tabs 
+                                value={value}
+                                onChange={handleChange}
+                                scrollButtons="on"
+                                indicatorColor="primary"
+                                textColor="primary"
+                                aria-label="scrollable force tabs example">
+                                <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{width:"50%"}}></Tab>
+                                <Tab label="Sign UP" icon={<SignUpIcon></SignUpIcon>} style={{width:"50%"}}></Tab>
+                            </Tabs>
                     </AppBar>
-                    <ForgotPassword></ForgotPassword>
                     <TabPanel value={value} index={0}>
-                        <SingInComponent></SingInComponent>
+                        <SingInComponent>
+                                <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant ="body2" onClick={handleClickModal}> 
+                                    Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant ="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                                </Grid>
+                                <Box mt={5}>
+                                    <Copyright />
+                                </Box>
+                        </SingInComponent>
 
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <SingUpComponent></SingUpComponent>           
+                        <SingUpComponent>
+                        <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant ="body2" onClick={handleClickModal}>
+                                    Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant ="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                                </Grid>
+                                <Box mt={5}>
+                                    <Copyright />
+                                </Box>   
+                         </SingUpComponent>           
                     </TabPanel>
                 </Grid>
             </Grid>
@@ -103,3 +154,5 @@ export default function SignIn(){
     )
     
 }
+
+export default  SignIn;

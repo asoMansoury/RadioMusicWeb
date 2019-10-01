@@ -6,11 +6,12 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Box from '@material-ui/core/Box';
 import CopyRight from './../CommonComponents/CopyRight';
+import Link from '@material-ui/core/Link';
+
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme =>({
 
 
 
-export default function SignInComponent() {
+export default function SignInComponent(props) {
     const classes = useStyles();
         return(
             <div className={classes.paper}>
@@ -80,21 +81,7 @@ export default function SignInComponent() {
                     >
                         Sign Up
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant ="body2">
-                            Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant ="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    <Box mt={5}>
-                        <CopyRight />
-                    </Box>
+                    {props.children}
                 </form>
         </div>   
         )

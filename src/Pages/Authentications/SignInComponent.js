@@ -9,8 +9,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Box from '@material-ui/core/Box';
-import Copyright from './../CommonComponents/CopyRight';
 
 const useStyles = makeStyles(theme =>({
     paper:{
@@ -33,7 +31,8 @@ const useStyles = makeStyles(theme =>({
     }
 }));
 
-export default function SignInComponent() {
+export default function SignInComponent(props) {
+
     const classes = useStyles();
         return(
             <div className={classes.paper}>
@@ -79,21 +78,7 @@ export default function SignInComponent() {
                     >
                         Sign In
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant ="body2">
-                            Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant ="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    <Box mt={5}>
-                        <Copyright />
-                    </Box>
+                        {props.children}
                 </form>
         </div>   
         )

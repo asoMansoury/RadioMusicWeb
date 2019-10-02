@@ -93,7 +93,7 @@ const  SignIn=()=>{
     return (
         <div className={classes.root}>
             <Grid container component='main' className={classes.root}>
-            <ForgotPassword  ref={myRef} isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
+                <ForgotPassword  ref={myRef} isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
                 <CssBaseline></CssBaseline>
                 <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
                 <Grid item xs={12} sm={8} md={6} component={Paper}>
@@ -112,16 +112,16 @@ const  SignIn=()=>{
                     <TabPanel value={value} index={0}>
                         <SingInComponent>
                                 <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant ="body2" onClick={handleClickModal}> 
-                                    Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant ="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
+                                    <Grid item xs>
+                                        <Link href="#" variant ="body2" onClick={handleClickModal}> 
+                                        Forgot password?
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link href="#" variant ="body2">
+                                            {"Don't have an account? Sign Up"}
+                                        </Link>
+                                    </Grid>
                                 </Grid>
                                 <Box mt={5}>
                                     <Copyright />
@@ -131,8 +131,8 @@ const  SignIn=()=>{
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <SingUpComponent>
-                        <Grid container>
-                                <Grid item xs>
+                            <Grid container>
+                                <Grid item >
                                     <Link href="#" variant ="body2" onClick={handleClickModal}>
                                     Forgot password?
                                     </Link>
@@ -142,7 +142,7 @@ const  SignIn=()=>{
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
-                                </Grid>
+                            </Grid>
                                 <Box mt={5}>
                                     <Copyright />
                                 </Box>   

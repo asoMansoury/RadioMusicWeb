@@ -51,11 +51,10 @@ export default function SignInComponent(props) {
                         required
                         margin="normal"
                         fullWidth
-                        id="email"
+                        id="RegEmail"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
-                        autoFocus
                     ></TextField>
                     <TextField 
                         variant="outlined"
@@ -63,7 +62,7 @@ export default function SignInComponent(props) {
                         margin="normal"
                         security
                         fullWidth
-                        id="password"
+                        id="RegPassword"
                         label = "Password"
                         name="password"
                         autoComplete="current-password">

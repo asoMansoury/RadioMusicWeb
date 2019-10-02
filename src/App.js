@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import MainPage from './Pages/MainPage';
 import SignIn from './Pages/Authentications/SignIn';
 class App extends React.Component {
-
-
   render(){
     return <SignIn></SignIn>
   }

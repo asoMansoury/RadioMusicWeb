@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,createMuiTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Box from '@material-ui/core/Box';
-import CopyRight from './../CommonComponents/CopyRight';
-import Link from '@material-ui/core/Link';
+import { green } from '@material-ui/core/colors';
+import { ThemeProvider } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme =>({
     paper:{
@@ -37,6 +35,9 @@ const useStyles = makeStyles(theme =>({
 
 export default function SignInComponent(props) {
     const classes = useStyles();
+    const theme = createMuiTheme({
+        palette:green
+    })
         return(
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -46,27 +47,29 @@ export default function SignInComponent(props) {
                     Sign Up
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        required
-                        margin="normal"
-                        fullWidth
-                        id="RegEmail"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                    ></TextField>
-                    <TextField 
-                        variant="outlined"
-                        required
-                        margin="normal"
-                        security
-                        fullWidth
-                        id="RegPassword"
-                        label = "Password"
-                        name="password"
-                        autoComplete="current-password">
-                    </TextField>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            margin="normal"
+                            fullWidth
+                            id="RegEmail"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                        ></TextField>
+                        <TextField 
+                            variant="outlined"
+                            required
+                            margin="normal"
+                            security
+                            fullWidth
+                            id="RegPassword"
+                            label = "Password"
+                            name="password"
+                            autoComplete="current-password">
+                        </TextField>
+                    </ThemeProvider>
                     <FormControlLabel
                         control={<Checkbox value="remember"  color="primary"></Checkbox>}
                         label="Remember me"

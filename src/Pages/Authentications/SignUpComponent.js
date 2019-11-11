@@ -49,7 +49,7 @@ export default function SignInComponent(props) {
                 <form className={classes.form} noValidate>
                     <ThemeProvider theme={theme}>
                         <TextField
-                            variant="outlined"
+                            variant="standard"
                             required
                             margin="normal"
                             fullWidth
@@ -59,10 +59,10 @@ export default function SignInComponent(props) {
                             autoComplete="email"
                         ></TextField>
                         <TextField 
-                            variant="outlined"
+                            variant="standard"
                             required
                             margin="normal"
-                            security
+                            security="true"
                             fullWidth
                             id="RegPassword"
                             label = "Password"

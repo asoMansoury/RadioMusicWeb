@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import clsx from 'clsx'
 
 const drawerWidth = 240;
@@ -28,6 +29,8 @@ const useStyles =makeStyles(theme=>({
     },
     drawerPaper: {
         width: drawerWidth,
+        flexShrink:0,
+        
     },
     content: {
         flexGrow:1,
@@ -36,23 +39,25 @@ const useStyles =makeStyles(theme=>({
             easing:theme.transitions.easing.sharp,
             duration:theme.transitions.duration.leavingScreen
         }),
-        marginLeft:'-40px'
+        marginRight:'-40px'
       },
     contentShif:{
         transition:theme.transitions.create('margin',{
             easing:theme.transitions.easing.easeOut,
             duration:theme.transitions.duration.enteringScreen
         }),
-        marginLeft:100
+        marginRight:120
     }
 }))
 const AdminPanel =()=>{
     const classes = useStyles();
-    const theme = useTheme();
     const [open , setOpen] = useState(false);
+    const theme = useTheme();
+    const isSMMode =useMediaQuery(theme.breakpoints.down('xs'));
+    const widthOfWindow = window.innerWidth;
 
     const handleDrawerOpen = ()=>{
-        setOpen(true)
+        setOpen(!open)
     }
 
     const handleDrawerClose =() =>{
@@ -63,6 +68,7 @@ const AdminPanel =()=>{
         <div className={classes.root}>
             <AppBarCustom openDrawer={handleDrawerOpen} openVal = {open}></AppBarCustom>
             <Drawer
+                anchor="right"
                 className={classes.drawerPaper}
                 variant="persistent"
                 open={open}>
@@ -73,11 +79,11 @@ const AdminPanel =()=>{
                         </IconButton>
                     </div>
                     <Divider></Divider>
-                    <List>
+                    <List style={isSMMode?{width:widthOfWindow}:{width:'100%'}}>
                         <ListItem button key="Manage Roles"></ListItem>
                         <ListItemIcon><InboxIcon /></ListItemIcon>
                             <ListItemText primary="Manage Roles" />
-                        {['Manage Roles', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                            {['Manage Roles', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                             <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />
@@ -86,10 +92,9 @@ const AdminPanel =()=>{
                     </List>
                     
             </Drawer>
-            <main className={classes.content}
+            <main 
             className={clsx(classes.content, {
-                [classes.contentShif]: open,
-            })}>
+                [classes.contentShif]: open})}>
                     <div>
                         <Typography paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt

@@ -69,7 +69,7 @@ function TabPanel(props){
 
 
 const  SignIn=()=>{
-    const myRef = React.createRef();
+
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const theme = useTheme();
@@ -93,7 +93,7 @@ const  SignIn=()=>{
     return (
         <div className={classes.root}>
             <Grid container component='main' className={classes.root}>
-                <ForgotPassword  ref={myRef} isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
+                <ForgotPassword  isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
                 <CssBaseline></CssBaseline>
                 <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
                 <Grid item xs={12} sm={8} md={6} component={Paper}>
@@ -127,12 +127,11 @@ const  SignIn=()=>{
                                     <Copyright />
                                 </Box>
                         </SingInComponent>
-
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <SingUpComponent>
                             <Grid container>
-                                <Grid item >
+                                <Grid item xs>
                                     <Link href="#" variant ="body2" onClick={handleClickModal}>
                                     Forgot password?
                                     </Link>

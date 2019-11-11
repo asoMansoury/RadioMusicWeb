@@ -14,10 +14,23 @@ const useStyles =makeStyles(theme=>({
     },
 
     menuButton:{
-        marginRight:theme.spacing(2)
+        marginRight:theme.spacing(2),
+        marginLeft:theme.spacing(1)
+    },
+    menuButtonL:{
+        marginRight:theme.spacing(2),
+        marginLeft:theme.spacing(-3)
     },
     title:{
         flexGrow:1
+    },
+    titleShift:{
+        flexGrow:1,
+        transition:theme.transitions.create(['margin','margin-right'],{
+            easing:theme.transitions.easing.sharp,
+            duration:theme.transitions.duration.standard
+        }),
+        marginRight:40
     },
     appBar:{
         transition:theme.transitions.create(['margin','widt'],{
@@ -26,8 +39,8 @@ const useStyles =makeStyles(theme=>({
         })
     },
     appBarShift:{
-        width:`calc(100% - ${165}px)`,
-        marginLeft:120,
+        width:`calc(100% - ${170}px)`,
+        marginRight:190,
         transition:theme.transitions.create(['margin','width'],{
             easing:theme.transitions.easing.easeInOut,
             duration:theme.transitions.duration.enteringScreen
@@ -47,13 +60,17 @@ const AppBarCustom =({openDrawer,openVal},props)=>{
                     [classes.appBarShift]: openVal,
                 })}
                 color="primary">
-                <Toolbar>
-                    <IconButton className={classes.menuButton} edge="start" onClick={handleDrawerOpen}>
+                <Toolbar style={{direction:"rtl"}}>
+                    <IconButton className={clsx(classes.menuButton,{
+                        [classes.menuButtonL]:openVal,
+                    })}  edge="start" onClick={handleDrawerOpen}>
                         <MenuIcon></MenuIcon>
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        News
-                    </Typography>
+                    <div  className={clsx(classes.title,{
+                        [classes.titleShift]:openVal
+                    })}>
+                        sdf
+                    </div>
                     <Button color="inherit">Log Out</Button>
                 </Toolbar>
             </AppBar>

@@ -42,7 +42,7 @@ export default function SignInComponent(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
-                        variant="outlined"
+                        variant="standard"
                         required
                         margin="normal"
                         fullWidth
@@ -53,10 +53,10 @@ export default function SignInComponent(props) {
                         autoFocus
                     ></TextField>
                     <TextField 
-                        variant="outlined"
+                        variant="standard"
                         required
                         margin="normal"
-                        security
+                        security="true"
                         fullWidth
                         id="password"
                         label = "Password"
@@ -72,8 +72,7 @@ export default function SignInComponent(props) {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
-                    >
+                        className={classes.submit}>
                         Sign In
                     </Button>
                         {props.children}

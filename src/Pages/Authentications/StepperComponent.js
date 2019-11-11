@@ -101,7 +101,7 @@ export default function StepperComponent(){
                     <Grid item xs={12} sm={12} md={12} lg={12} style={currentStep==0?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <TextField
-                                    variant="outlined"
+                                    variant="standard"
                                     required
                                     fullWidth
                                     margin='normal'
@@ -120,7 +120,7 @@ export default function StepperComponent(){
                             </div>
                             <div>
                                 <TextField
-                                    variant="outlined"
+                                    variant="standard"
                                     fullWidth
                                     margin="normal"
                                     id="confirmCode"

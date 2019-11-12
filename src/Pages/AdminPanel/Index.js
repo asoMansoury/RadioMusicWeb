@@ -4,7 +4,8 @@ import AppBarCustom from './Components/AppBarCustom';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,6 +14,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import {IconButton,Card, CardHeader,CardContent,CardActionArea,CardActions, Grid} from '@material-ui/core';
 import clsx from 'clsx'
 
 const drawerWidth = 240;
@@ -39,7 +42,6 @@ const useStyles =makeStyles(theme=>({
             easing:theme.transitions.easing.sharp,
             duration:theme.transitions.duration.leavingScreen
         }),
-        marginRight:'-40px'
       },
     contentShif:{
         transition:theme.transitions.create('margin',{
@@ -47,6 +49,10 @@ const useStyles =makeStyles(theme=>({
             duration:theme.transitions.duration.enteringScreen
         }),
         marginRight:120
+    },
+    contentXsMode:{
+        padding:10,
+        paddingTop:80
     }
 }))
 const AdminPanel =()=>{
@@ -93,32 +99,44 @@ const AdminPanel =()=>{
                     
             </Drawer>
             <main 
-            className={clsx(classes.content, {
-                [classes.contentShif]: open})}>
-                    <div>
-                        <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                        facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                        gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                        donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                        adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                        Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                        imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                        arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                        donec massa sapien faucibus et molestie ac.
-                        </Typography>
-                        <Typography paragraph>
-                        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                        facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                        tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                        consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                        hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                        tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                        nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                        accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-                        </Typography>
+            className={clsx(classes.content,"CardBody", {
+                [classes.contentShif]: open}, {
+                    [classes.contentXsMode]: isSMMode})}>
+                    <div style={{direction:'rtl'}}>
+                        <Grid container
+                              style={{margin:'0 auto'}}
+                              direction="row"
+                              justify='ceenter'
+                              alignItems='center'
+                              xs={12}
+                              sm={12}
+                        >
+
+                        <Card style={{width:'100%'}}>
+                            <CardHeader
+                                style={{backgroundColor:'#e91e63'}}
+                                avatar={
+                                    <Avatar aria-label="recipe">
+                                        R
+                                    </Avatar>
+                                }
+                                action={
+                                    <IconButton aria-label="settings" style={{backgroundColor:'#e91e63'}}>
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                }
+                                title="Shrimp and Chorizo Paella"
+                                subheader="September 14, 2016">
+                            </CardHeader>
+                            <CardContent style={{width:'100%',marginTop:30}}>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                        This impressive paella is a perfect party dish and a fun meal to cook together with your
+                                        guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        
+                        </Grid>
                     </div>
             </main>
         </div>

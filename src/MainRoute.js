@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route,Switch,Router} from 'react-router-dom';
+import {Route,Switch} from 'react-router-dom';
 import SignIn from './Pages/Authentications/SignIn';
 import AdminPanel from './Pages/AdminPanel/Index';
 import Home from './Pages/Home/Home';

@@ -1,10 +1,8 @@
-import React,{forwardRef,useImperativeHandle} from 'react';
-import {useTheme} from '@material-ui/core/styles'
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import StepperComponent from './StepperComponent';
 
 const useStyles = makeStyles(theme=>({
@@ -28,10 +26,6 @@ const useStyles = makeStyles(theme=>({
 
 const ForgotPassword =({setIshoShowModal,isShowModal},props)=>{
     const classes = useStyles();
-    const handleOpen = () =>{
-        
-        
-    }
     const handleClose = () =>{
         setIshoShowModal();
     }

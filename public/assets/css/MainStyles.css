@@ -1,0 +1,21 @@
+@font-face{
+    font-family: 'titleFonts';
+    src: url('./../fonts/fontsPersian/vazirFonts/Vazir.eot');
+    src: url('./../fonts/fontsPersian/vazirFonts/Vazir.eot?#iefix') format('embedded-opentype'),
+         url('./../fonts/fontsPersian/vazirFonts/Vazir.woff') format('woff'),
+         url('./../fonts/fontsPersian/vazirFonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+}
+
+.font-title{
+    font-family: "titleFonts" !important;
+}
+
+.font-title .MuiCardHeader-content .MuiCardHeader-title{
+    font-family: inherit;
+}
+
+.MuiInputLabel-formControl{
+    font-family: inherit !important;
+}
+

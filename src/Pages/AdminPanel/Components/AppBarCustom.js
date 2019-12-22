@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import {makeStyles,useTheme } from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -59,7 +58,7 @@ const AppBarCustom =({openDrawer,openVal},props)=>{
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: openVal,
                 })}
-                color="primary">
+                style={{backgroundColor:'#607D8B'}}>
                 <Toolbar style={{direction:"rtl"}}>
                     <IconButton className={clsx(classes.menuButton,{
                         [classes.menuButtonL]:openVal,

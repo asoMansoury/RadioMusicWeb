@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -7,8 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper'
-import { async } from 'q';
 
 const useStyles = makeStyles(theme=>({
     button:{
@@ -72,7 +70,7 @@ export default function StepperComponent(){
             setIsCompleted(data);
         }
 
-        if(data==0)
+        if(data===0)
             setActiveBack(1);
         setCurrentStep(data);
 
@@ -98,7 +96,7 @@ export default function StepperComponent(){
                 </Grid>
             </Grid>
             <Grid  container component='dataInputs' direction='column'style={{marginTop:'40px'}}>
-                    <Grid item xs={12} sm={12} md={12} lg={12} style={currentStep==0?{display:'block'}:{display:'none'}}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} style={currentStep===0?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <TextField
                                     variant="standard"
@@ -111,7 +109,7 @@ export default function StepperComponent(){
                             ></TextField>
                         </form>
                     </Grid>
-                    <Grid item xs={12} style={{display:'none'}} style={currentStep==1?{display:'block'}:{display:'none'}}>
+                    <Grid item xs={12}  style={currentStep===1?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <div>
                                 <Typography>
@@ -129,7 +127,7 @@ export default function StepperComponent(){
                             </div>
                         </form>
                     </Grid>
-                    <Grid item xs={12} style={{display:'none'}} style={currentStep==2?{display:'block'}:{display:'none'}}>
+                    <Grid item xs={12}  style={currentStep===2?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <div>
                                 <Typography>

@@ -18,6 +18,11 @@ import {IconButton,Card, CardHeader,CardContent, Grid} from '@material-ui/core';
 import clsx from 'clsx';
 import ManageRoles from './Components/ManageRoles';
 
+
+//Import Contexts
+import PageCheckingContex from './../Context/PageSizeChecking';
+
+
 const drawerWidth = 240;
 const useStyles =makeStyles(theme=>({
     root:{
@@ -82,70 +87,74 @@ const AdminPanel =(props)=>{
 
 
     return(
-        <div className={classes.root} >
-            <AppBarCustom openDrawer={handleDrawerOpen} openVal = {open}></AppBarCustom>
-            <Drawer
-                anchor="right"
-                className={classes.drawerPaper}
-                variant="persistent"
-                open={open}>
-                    <div className={classes.drawerHeader}>
-                        
-                        <IconButton onClick={handleDrawerClose} style={{background:"red"}}>
-                                <ChevronRight /> 
-                        </IconButton>
-                    </div>
-                    <Divider></Divider>
-                    <List style={isSMMode?{width:width}:{width:'100%'}}>
-                        <ListItem button key="Manage Roles"></ListItem>
-                        <ListItemIcon><InboxIcon /></ListItemIcon>
-                            <ListItemText primary="Manage Roles" />
-                            {['Manage Roles', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    
-            </Drawer>
-            <main 
-            className={clsx(classes.content,"CardBody", {
-                [classes.contentShif]: open}, {
-                    [classes.contentXsMode]: isSMMode})}>
-                    <div style={{direction:'rtl'}}>
-                        <Grid container
-                              style={{margin:'0 auto'}}
-                              direction="row"
-                              justify='center'
-                              alignItems='center'>
-                                <Grid item  xs={12} sm={12}>
-                                    <Card style={{width:'100%'}}>
-                                        <CardHeader
-                                            style={{backgroundColor:'#607D8B',fontFamily:'titleFonts'}}
-                                            avatar={
-                                                <Avatar aria-label="recipe">
-                                                    AD
-                                                </Avatar>
-                                            }
-                                            action={
-                                                <IconButton aria-label="settings" style={{backgroundColor:'#607D8B'}}>
-                                                    <MoreVertIcon />
-                                                </IconButton>
-                                            }
-                                            title="مدیریت نقش ها"
-                                            // subheader="September 14, 2016"
-                                            >
-                                        </CardHeader>
-                                            <CardContent style={{width:'100%',marginTop:30}}>
-                                                <ManageRoles></ManageRoles>
-                                            </CardContent>
-                                    </Card>
-                                </Grid>   
-                        </Grid>
-                    </div>
-            </main>
-        </div>
+        <PageCheckingContex.Provider value={{
+            isSMMode:isSMMode
+            }}>
+                <div className={classes.root} >
+                    <AppBarCustom openDrawer={handleDrawerOpen} openVal = {open}></AppBarCustom>
+                    <Drawer
+                        anchor="right"
+                        className={classes.drawerPaper}
+                        variant="persistent"
+                        open={open}>
+                            <div className={classes.drawerHeader}>
+                                
+                                <IconButton onClick={handleDrawerClose} style={{background:"red"}}>
+                                        <ChevronRight /> 
+                                </IconButton>
+                            </div>
+                            <Divider></Divider>
+                            <List style={isSMMode?{width:width}:{width:'100%'}}>
+                                <ListItem button key="Manage Roles"></ListItem>
+                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                    <ListItemText primary="Manage Roles" />
+                                    {['Manage Roles', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                                    <ListItem button key={text}>
+                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                    <ListItemText primary={text} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                            
+                    </Drawer>
+                    <main 
+                        className={clsx(classes.content,"CardBody", {
+                            [classes.contentShif]: open}, {
+                                [classes.contentXsMode]: isSMMode})}>
+                            <div style={{direction:'rtl'}}>
+                                <Grid container
+                                    style={{margin:'0 auto'}}
+                                    direction="row"
+                                    justify='center'
+                                    alignItems='center'>
+                                        <Grid item  xs={12} sm={12}>
+                                            <Card style={{width:'100%'}}>
+                                                <CardHeader
+                                                    style={{backgroundColor:'#607D8B',fontFamily:'titleFonts'}}
+                                                    avatar={
+                                                        <Avatar aria-label="recipe">
+                                                            AD
+                                                        </Avatar>
+                                                    }
+                                                    action={
+                                                        <IconButton aria-label="settings" style={{backgroundColor:'#607D8B'}}>
+                                                            <MoreVertIcon />
+                                                        </IconButton>
+                                                    }
+                                                    title="مدیریت نقش ها"
+                                                    // subheader="September 14, 2016"
+                                                    >
+                                                </CardHeader>
+                                                    <CardContent style={{width:'100%',marginTop:30}}>
+                                                        <ManageRoles></ManageRoles>
+                                                    </CardContent>
+                                            </Card>
+                                        </Grid>   
+                                </Grid>
+                            </div>
+                    </main>
+                </div>           
+        </PageCheckingContex.Provider>
     )
 }
 

@@ -18,4 +18,10 @@
 .MuiInputLabel-formControl{
     font-family: inherit !important;
 }
+#headrTab header{
+    background-color: #3f51b5 !important;
+}
+.MuiPaper-root.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-positionFixed.makeStyles-appBar-12.MuiAppBar-colorPrimary.mui-fixed{
+    background-color: #3f51b5 !important
+}
 

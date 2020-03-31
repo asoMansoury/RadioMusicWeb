@@ -97,7 +97,7 @@ const  SignIn=()=>{
                             <InputLabel htmlFor="my-input">Email address</InputLabel>
                             <Input id="my-input" aria-describedby="my-helper-text" />
                         </FormControl> */}
-            <Grid container component='main' className={classes.root}>
+            <Grid container component='main' className={classes.root} id='headrTab'>
                 <ForgotPassword  isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
                 <CssBaseline></CssBaseline>
                 <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
@@ -110,8 +110,8 @@ const  SignIn=()=>{
                                 indicatorColor="primary"
                                 textColor="primary"
                                 aria-label="scrollable force tabs example">
-                                <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{width:"50%"}}></Tab>
-                                <Tab label="Sign UP" icon={<SignUpIcon></SignUpIcon>} style={{width:"50%"}}></Tab>
+                                <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
+                                <Tab label="Sign UP" icon={<SignUpIcon></SignUpIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
                             </Tabs>
                     </AppBar>
                     <TabPanel value={value} index={0}>

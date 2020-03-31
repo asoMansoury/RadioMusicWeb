@@ -130,14 +130,14 @@ const AdminPanel =(props)=>{
                                         <Grid item  xs={12} sm={12}>
                                             <Card style={{width:'100%'}}>
                                                 <CardHeader
-                                                    style={{backgroundColor:'#607D8B',fontFamily:'titleFonts'}}
+                                                    style={{backgroundColor:'#3f51b5',fontFamily:'titleFonts'}}
                                                     avatar={
                                                         <Avatar aria-label="recipe">
                                                             AD
                                                         </Avatar>
                                                     }
                                                     action={
-                                                        <IconButton aria-label="settings" style={{backgroundColor:'#607D8B'}}>
+                                                        <IconButton aria-label="settings" style={{backgroundColor:'#3f51b5'}}>
                                                             <MoreVertIcon />
                                                         </IconButton>
                                                     }

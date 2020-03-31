@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core/styles';
 import ChackPageContext from './../../Context/PageSizeChecking';
-import SnackBarComponent from './SnackBarComponent';
+import SnackBarComponent from '../../CommonComponents/SnackBarComponent';
 import axios from 'axios';
 import Axios from 'axios';
 

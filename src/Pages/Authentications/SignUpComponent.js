@@ -3,13 +3,14 @@ import { makeStyles,createMuiTheme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
-
+import {BaseApiUrl} from './../../Common/Constant';
+import axios from 'axios';
+import {Validation} from './../../Common/Validation';
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -38,53 +39,245 @@ export default function SignInComponent(props) {
     const theme = createMuiTheme({
         palette:green
     })
-        return(
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon></LockOutlinedIcon>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign Up
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <ThemeProvider theme={theme}>
-                        <TextField
-                            variant="standard"
-                            required
-                            margin="normal"
-                            fullWidth
-                            id="RegEmail"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                        ></TextField>
-                        <TextField 
-                            variant="standard"
-                            required
-                            margin="normal"
-                            security="true"
-                            fullWidth
-                            id="RegPassword"
-                            label = "Password"
-                            name="password"
-                            autoComplete="current-password">
-                        </TextField>
-                    </ThemeProvider>
-                    <FormControlLabel
-                        control={<Checkbox value="remember"  color="primary"></Checkbox>}
-                        label="Remember me"
-                    ></FormControlLabel>
-                    <Button
-                        type="submit"
+
+    const snackRef = React.useRef();
+    const [emailValue,setEmail] = React.useState("")
+    const [mobileValue,setMobile] = React.useState("+98")
+    const [passwordValue,setPassword]= React.useState("")
+    const [confirmPasswordValue,setConfirmPassword]= React.useState("")
+    const [userNameValue,setUserName]= React.useState("")
+    const [disableSignUpBtn,setDisableSignUpBtn]=React.useState(true)
+
+
+    const checkMobileValid = () => {
+        if(mobileValue!=""){
+            if(Validation.checkMobile(mobileValue)==false){
+                snackRef.current.showSnackBar("فرمت موبایل صحیح نمی باشد","error");
+                setDisableSignUpBtn(true)
+            }else{
+                var data = {
+                    Mobile: mobileValue,
+                  };
+                  axios.post(BaseApiUrl + '/UserApi/CheckMobile', data).then(res => {
+                    if (res.data.isError === true) {
+                      snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+                    } else {
+                      if (res.data.isUserNameExist === true) {
+                        snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"error");
+                      } else {
+                        snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"success");
+                        checkDisableBtn();
+                      }
+                    }
+                  });
+                    
+            }
+
+        }
+      };
+    const  CheckUserName = () => {
+        if(userNameValue!=''){
+            var data = {
+                userName: userNameValue,
+              };
+              axios.post(BaseApiUrl + '/UserApi/CheckUserName', data).then(res => {
+                if (res.data.isError == true) {
+                  snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+                } else {
+                  if (res.data.isUserNameExist == true) {
+                    snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"error");
+                  } else {
+                    snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"success");
+                    checkDisableBtn();
+                  }
+                }
+              });
+                
+        }
+      };
+    const checkEmailValid = () => {
+        if(emailValue!=''){
+            if(Validation.validEmail(emailValue)===false){
+                snackRef.current.showSnackBar("فرمت ایمیل صحیح نمی باشد","error");
+                setDisableSignUpBtn(true)
+            }else{
+                var data = {
+                    email: emailValue,
+                  };
+                axios.post(BaseApiUrl + '/UserApi/CheckEmail', data).then(res => {
+                    if (res.data.isError === true) {
+                    snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+                    } else {
+                    if (res.data.isUserNameExist === true) {
+                        snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"error");
+                    } else {
+                        snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"success");
+                        checkDisableBtn();
+                    }
+                    }
+                });
+            }
+            checkDisableBtn();  
+        }
+      };
+    const checkConfirmPassword=()=>{
+        if(passwordValue!==''&&confirmPasswordValue!==''){
+            if(Validation.checkPassword(passwordValue,confirmPasswordValue)==false){
+                snackRef.current.showSnackBar("پسورد به درستی وارد نشده است","error");
+                setDisableSignUpBtn(true)
+            }else{
+                snackRef.current.showSnackBar("پسورد به درستی وارد شده است","success");
+                checkDisableBtn(); 
+            }
+           
+        }
+    }
+
+   const checkDisableBtn=()=>{
+        if(
+            emailValue === '' ||
+            passwordValue === '' ||
+            mobileValue === '' ||
+            userNameValue === '' ||
+            confirmPasswordValue === ''
+          ) {
+            setDisableSignUpBtn(true)
+          }else{
+            setDisableSignUpBtn(false)
+          }
+        
+    }
+
+    const SignUpEvent =(event)=>{
+        var data = {
+            email: emailValue,
+            password: passwordValue,
+            Mobile: mobileValue,
+            userName: userNameValue,
+          };
+      
+          if(
+            data.email === '' ||
+            data.password === '' ||
+            data.Mobile === '' ||
+            data.userName === '' ||
+            confirmPasswordValue === ''
+          ) {
+            return;
+          }
+        
+          axios
+            .post(BaseApiUrl + '/UserApi/RegisterUser', data)
+            .then(res => {
+              if (res.data.isError === true) {
+                snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+                // this.props.setUserLogging(false);
+              } else {
+                snackRef.current.showSnackBar( 'عملیات با موفقیت انجام گردید',"success");
+      
+                // const userInformation = {
+                //   mobile: data.Mobile,
+                //   userName: data.userName,
+                //   email: data.email,
+                // };
+                // this.props.saveUserInformation(userInformation);
+              }
+            });
+    }
+
+    return(
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+                <LockOutlinedIcon></LockOutlinedIcon>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                Sign Up
+            </Typography>
+            <form className={classes.form} noValidate>
+                <ThemeProvider theme={theme}>
+                    <TextField
+                        onBlur={(event)=>checkMobileValid()}
+                        variant="standard"
+                        required
+                        margin="normal"
                         fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign Up
-                    </Button>
-                    {props.children}
-                </form>
-        </div>   
-        )
+                        id="mobile"
+                        label="Mobile"
+                        name="mobile"
+                        autoComplete="mobile"
+                        onChange={(event)=>setMobile(event.target.value)}
+                        value={mobileValue}
+                    ></TextField>
+                    <TextField
+                        onBlur={(event)=>CheckUserName()}
+                        variant="standard"
+                        required
+                        margin="normal"
+                        fullWidth
+                        id="username"
+                        label="UserName"
+                        name="userName"
+                        autoComplete="username"
+                        onChange={(event)=>setUserName(event.target.value)}
+                        value={userNameValue}
+                    ></TextField>
+                    <TextField
+                        onBlur={(event)=>checkEmailValid()}
+                        variant="standard"
+                        required
+                        margin="normal"
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        onChange={(event)=>setEmail(event.target.value)}
+                        value={emailValue}
+                    ></TextField>
+                    <TextField 
+                        variant="standard"
+                        onBlur={(event)=>checkConfirmPassword(event.target.value)}
+                        required
+                        margin="normal"
+                        security="true"
+                        fullWidth
+                        id="password"
+                        label = "Password"
+                        name="password"
+                        onChange={(event)=>setPassword(event.target.value)}
+                        autoComplete="current-password"
+                        value={passwordValue}
+                        >
+                    </TextField>
+                    <TextField 
+                        variant="standard"
+                        required
+                        onBlur={(event)=>checkConfirmPassword(event.target.value)}
+                        margin="normal"
+                        security="true"
+                        fullWidth
+                        id="confirmPassword"
+                        label = "Confirm Password"
+                        onChange={(event)=>setConfirmPassword(event.target.value)}
+                        name="confirmPassword"
+                        autoComplete="current-password"
+                        value={confirmPasswordValue}
+                        >
+                    </TextField>
+                </ThemeProvider>
+                <Button
+                disabled={disableSignUpBtn}
+                    type="button"
+                    fullWidth
+                    variant="contained"
+                    className={classes.submit}
+                    onClick={(event)=>SignUpEvent(event)}
+                >
+                    Sign Up
+                </Button>
+                {props.children}
+            </form>
+            <SnackBarComponent ref={snackRef}></SnackBarComponent>
+    </div>   
+    )
 }

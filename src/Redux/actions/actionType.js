@@ -1,7 +1,15 @@
-export const userLogin = (isLogin=false,userInformation)=>{
+import {SET_USER_INOFORMATION,SET_USER_LOGIN} from './constantActionss';
+
+export const isUserLogin = (isLogin=false)=>{
     return {
-        type:"userLogin",
-        isLogin:isLogin,
-        userInformation:userInformation
+        type:SET_USER_LOGIN,
+        payload:isLogin
+    }
+}
+
+export const saveUserInformation = (userInformation)=>{
+    return{
+        type:SET_USER_INOFORMATION,
+        payload:userInformation
     }
 }

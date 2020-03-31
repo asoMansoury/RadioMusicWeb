@@ -1,17 +1,31 @@
-
+import {SET_USER_INOFORMATION,SET_USER_LOGIN} from '../actions/constantActionss';
 const initState = {
-    isLogin:false,
-    userInformation:{}
+    isUserLoggedIn:false,
+    userInformation:{
+        userName:'',
+        mobile:'',
+        email:''
+    }
 }
 
 export const UserIsLogin = (state=initState,action)=>{
     switch (action.type) {
-        case "s":
-            state={
-                isLogin:true
+        case SET_USER_LOGIN:
+        {
+            let result ={
+                isUserLoggedIn:true,
+                ...state
             }
-            return state;
-    
+            return result;
+        }
+        case SET_USER_INOFORMATION:
+        {
+            let resultUser = {
+                ...state,
+                userInformation:action.payload
+            }   
+            return resultUser;
+        }
         default:
             return initState;
     }

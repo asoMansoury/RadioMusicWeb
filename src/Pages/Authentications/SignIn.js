@@ -17,6 +17,8 @@ import ForgotPassword from './ForgotPassword';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Copyright from './../CommonComponents/CopyRight';
 import Link from '@material-ui/core/Link';
+import {connect} from 'react-redux';
+import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType'
 
 const useStyles = makeStyles(theme =>({
     root:{
@@ -68,8 +70,7 @@ function TabPanel(props){
 
 
 
-const  SignIn=()=>{
-
+const  SignIn=(props)=>{
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const theme = useTheme();
@@ -107,7 +108,7 @@ const  SignIn=()=>{
                                 value={value}
                                 onChange={handleChange}
                                 scrollButtons="on"
-                                indicatorColor="primary"
+                                indicatorColor="secondary"
                                 textColor="primary"
                                 aria-label="scrollable force tabs example">
                                 <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
@@ -158,5 +159,22 @@ const  SignIn=()=>{
     )
     
 }
+
+// const mapStateToProps = state => {
+//     return {
+//       isUserLogged: state.UserIsLogin
+//     };
+//   };
+  
+//   const mapDispatchToProps = dispath => {
+//     return {
+//         setUserLogin:value=>{
+//             dispath(isUserLogin(value))
+//         },
+//         saveUserInformation:value=>{
+//             dispath(saveUserInformation(value))
+//         }
+//     };
+//   };
 
 export default  SignIn;

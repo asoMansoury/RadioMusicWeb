@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
 import {BaseApiUrl} from './../../Common/Constant';
 import SnackBarComponent from './../CommonComponents/SnackBarComponent';
+import {connect} from 'react-redux';
+import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
+import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles(theme =>({
     paper:{
@@ -36,7 +39,7 @@ const useStyles = makeStyles(theme =>({
 
 
 
-export default function SignInComponent(props) {
+function SignInComponent(props) {
     const snackRef = React.useRef();
     const [emailValue,setEmail] = React.useState("")
     const handleEmailText= (value)=>{
@@ -64,9 +67,6 @@ export default function SignInComponent(props) {
     }
 
     const signInEvent = (childRef) =>()=>{
-
-
-
         var data = {
             email: emailValue,
             password: passwordValue,
@@ -76,65 +76,94 @@ export default function SignInComponent(props) {
             if(res.data.isError==true){
                 childRef.current.showSnackBar(res.data.Errors.Message,"error");
             }else{
-                
+                var userInfo = {
+                    mobile:res.data.Mobile,
+                    userName:res.data.userName,
+                    email:res.data.email
+                }
+                props.setUserLogin(true);
+                props.saveUserInformation(userInfo);
+                console.log(props.isUserLoggedIn);
             }
         });
     }
 
     
     const classes = useStyles();
-        return(
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon></LockOutlinedIcon>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="standard"
-                        required
-                        margin="normal"
-                        fullWidth
-                        onChange={(event)=>handleEmailText(event.target.value)}
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        value={emailValue}
-                        autoFocus
-                    ></TextField>
-                    <TextField 
-                        variant="standard"
-                        required
-                        margin="normal"
-                        security="true"
-                        fullWidth
-                        value={passwordValue}
-                        onChange={(event)=>handlePasswordTxt(event.target.value)}
-                        id="password"
-                        label = "Password"
-                        name="password"
-                        autoComplete="current-password">
-                    </TextField>
-                    <FormControlLabel
-                        control={<Checkbox onChange={handleRememberMe}  checked={rememberMeValue} ></Checkbox>}
-                        label="Remember me" style={{color:'black'}}
-                    ></FormControlLabel>
-                    <Button
-                        type="button"
-                        fullWidth
-                        disabled={isDisableSignInBtn}
-                        variant="contained"
-                        color="primary"
-                        onClick={signInEvent(snackRef)}
-                        className={classes.submit}>
-                        Sign In
-                    </Button>
-                        {props.children}
-                </form>
-                <SnackBarComponent ref={snackRef}></SnackBarComponent>
-        </div>   
-        )
+    if(props.isUserLoggedIn){
+       return <Redirect to="/AdminPanel"></Redirect>
+    }else
+    return(
+        <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+                <LockOutlinedIcon></LockOutlinedIcon>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
+            <form className={classes.form} noValidate>
+                <TextField
+                    variant="standard"
+                    required
+                    margin="normal"
+                    fullWidth
+                    onChange={(event)=>handleEmailText(event.target.value)}
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    value={emailValue}
+                    autoFocus
+                ></TextField>
+                <TextField 
+                    variant="standard"
+                    required
+                    margin="normal"
+                    security="true"
+                    fullWidth
+                    value={passwordValue}
+                    onChange={(event)=>handlePasswordTxt(event.target.value)}
+                    id="password"
+                    label = "Password"
+                    name="password"
+                    autoComplete="current-password">
+                </TextField>
+                <FormControlLabel
+                    control={<Checkbox onChange={handleRememberMe}  checked={rememberMeValue} ></Checkbox>}
+                    label="Remember me" style={{color:'black'}}
+                ></FormControlLabel>
+                <Button
+                    type="button"
+                    fullWidth
+                    disabled={isDisableSignInBtn}
+                    variant="contained"
+                    onClick={signInEvent(snackRef)}
+                    className={classes.submit}>
+                    Sign In
+                </Button>
+                    {props.children}
+            </form>
+            <SnackBarComponent ref={snackRef}></SnackBarComponent>
+    </div>   
+    )
 }
+
+const mapStateToProps = state => {
+    return {
+        isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
+      userInformation:state.UserIsLogin.userInformation
+    };
+  };
+  
+  const mapDispatchToProps = dispath => {
+    return {
+        setUserLogin:value=>{
+            dispath(isUserLogin(value))
+        },
+        saveUserInformation:value=>{
+            dispath(saveUserInformation(value))
+        }
+    };
+  };
+
+export default  connect(mapStateToProps,mapDispatchToProps)(SignInComponent);

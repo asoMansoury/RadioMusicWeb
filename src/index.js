@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Store} from './Redux/store';
+import {store} from './Redux/store';
 import MainRoute from './MainRoute';
 import {BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
-    <Provider store={Store}>
+    <Provider store={store}>
         <BrowserRouter>
             <MainRoute></MainRoute>
         </BrowserRouter>

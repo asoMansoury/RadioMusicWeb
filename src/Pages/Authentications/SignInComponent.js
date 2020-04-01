@@ -14,7 +14,7 @@ import {BaseApiUrl} from './../../Common/Constant';
 import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import {connect} from 'react-redux';
 import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
-import { Redirect } from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles(theme =>({
     paper:{
@@ -43,7 +43,6 @@ function SignInComponent(props) {
     const snackRef = React.useRef();
     const [emailValue,setEmail] = React.useState("")
     const [passwordValue,setPassword]= React.useState("")
-    const [isUserLoggedIn,setIsUserLoggedIn]=React.useState(false);
     const handleEmailText= (value)=>{
         setEmail(value)
         handleDisableSignInBtn(value,passwordValue)
@@ -83,7 +82,6 @@ function SignInComponent(props) {
                     userName:res.data.userName,
                     email:res.data.email
                 }
-                setIsUserLoggedIn(true);
                 props.setUserLogin(true);
                 props.saveUserInformation(userInfo);
             }
@@ -92,8 +90,8 @@ function SignInComponent(props) {
 
     
     const classes = useStyles();
-    // if(props.isUserLoggedIn)
-    if(isUserLoggedIn){
+    if(props.isUserLoggedIn){
+    // if(isUserLoggedIn){
        return <Redirect to="/AdminPanel"></Redirect>
     }else
     return(

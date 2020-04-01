@@ -9,24 +9,28 @@ const initState = {
 }
 
 export const UserIsLogin = (state=initState,action)=>{
+    let result = {};
     switch (action.type) {
+        
         case SET_USER_LOGIN:
         {
-            let result ={
-                isUserLoggedIn:true,
-                ...state
+         result = {
+                ...state,
+                isUserLoggedIn:action.payload
+                
             }
+            console.log("result : ",action.payload,result);
             return result;
         }
         case SET_USER_INOFORMATION:
         {
-            let resultUser = {
+            result = {
                 ...state,
                 userInformation:action.payload
             }   
-            return resultUser;
+            return result;
         }
         default:
-            return initState;
+            return state;
     }
 }

@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import SnackBarComponent from './../CommonComponents/SnackBarComponent';
+import {Validation} from './../../Common/Validation';
+import {BaseApiUrl} from './../../Common/Constant'
+import axios from 'axios';
 
 const useStyles = makeStyles(theme=>({
     button:{
@@ -37,22 +41,110 @@ const useStyles = makeStyles(theme=>({
 }));
 
 function getSteps() {
-    return ['Email', 'Send', 'Confirm'];
+    return ['Send', 'Confirm', 'Reset'];
 }
 
-export default function StepperComponent(){
+export default function StepperComponent(props){
+    const snackRef = React.useRef();
     const steps = getSteps();
     const classes = useStyles();
     const [activeBack, setActiveBack] = useState(1);
     const [isCompleted,setIsCompleted] =useState(0);
     const [currentStep,setCurrentStep] = useState(0);
-    
+    const [activeNext,setActiveNext] = useState(0);
+    const [mobileValue,setMobileValue]=useState("+98")
+    const [confirmValue,setConfirmValue]=useState("")
+    const [passwordValue,setPasswordValue]=useState("")
 
-    const handleNext = () => {
+    const handleNext = () => 
+    {  
+        if(currentStep===0){
+            SendVerificationCode()
+        }else if(currentStep===1){
+            CheckConfirmationCode()
+        }else if(currentStep===2){
+            ResetPassword()
+        }
+
+    };
+
+    const ResetPassword =()=>{
+        if(passwordValue!=="")
+        {
+            var data = {
+                callNumber: mobileValue,
+                confirmationCode: confirmValue,
+                password: passwordValue,
+              };
+            axios
+              .post(BaseApiUrl + '/MessageApi/ResetPassword', data)
+            .then(res => {
+              if (res.data.isError === true) {
+                snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+              } else {
+                snackRef.current.showSnackBar("پسورد تغییر یافت","success");
+                handleOperation();
+              }
+            })
+            .catch(error => {
+              snackRef.current.showSnackBar(error,"error");
+            });   
+        }
+        else{
+            snackRef.current.showSnackBar("پسورد نمی تواند خالی باشد","error");
+        } 
+    }
+
+    const CheckConfirmationCode =()=>{
+        if(confirmValue!=="")
+        {
+            var data = {
+                callNumber: mobileValue,
+                confirmationCode: confirmValue,
+              };
+              axios
+              .post(BaseApiUrl + '/MessageApi/ConfirmVerificationCode', data)
+            .then(res => {
+              if (res.data.isError === true) {
+                snackRef.current.showSnackBar(res.data.Errors.Message,"error");
+              } else {
+                handleOperation();
+              }
+            })
+            .catch(error => {
+              snackRef.current.showSnackBar(error,"error");
+            });   
+        }
+        else{
+            snackRef.current.showSnackBar("کد ارسال شده را وارد نمایید","error");
+        } 
+    }
+    const SendVerificationCode =()=>{
+        if(Validation.checkMobile(mobileValue)===true)
+        {
+            axios.get(BaseApiUrl +'/MessageApi/SendVerificationCode?callNumber=/' +mobileValue)
+            .then(res => {
+              if (res.data.isError === true) {
+                snackRef.current.showSnackBar("شماره موبایل معتبر نمی باشد","error");
+              } else {
+                handleOperation();
+              }
+            })
+            .catch(error => {
+              snackRef.current.showSnackBar(error,"error");
+            });   
+        }
+        else{
+            snackRef.current.showSnackBar("شماره موبایل معتبر نمی باشد","error");
+        } 
+    }
+    const handleOperation =()=>{
         let data = isCompleted;
+        if(currentStep===2)
+            setActiveNext(1)
         if(isCompleted<3){
              data = isCompleted+1;
-            setIsCompleted(data);
+             setIsCompleted(data);   
         }
 
         if(data>0)
@@ -61,9 +153,17 @@ export default function StepperComponent(){
             setActiveBack(1);
         setCurrentStep(data);
 
-        };
-
+        if(currentStep>1){
+            setActiveBack(0)
+            props.setIshoShowModal(0);
+            setActiveBack(1);
+            setIsCompleted(0);
+            setActiveNext(0);
+            setCurrentStep(0);
+        }
+    }
     const handleBack = ()=>{
+        
         let data = isCompleted;
         if(data>0){
             data= isCompleted-1;
@@ -73,14 +173,13 @@ export default function StepperComponent(){
         if(data===0)
             setActiveBack(1);
         setCurrentStep(data);
+        if(data<2)
+            setActiveNext(0)
 
     }
-
-    
-
     return(
         <div>
-            <Grid container component='stepper' wrap='wrap'>
+            <Grid container component='stepper' wrap='wrap' style={{marginleft: '-30px !important'}}>
                 <Grid item xs={8} sm={12} md={12}>
                     <Stepper component='stepperContent' activeStep={isCompleted} className={classes.stepper}>
                         {
@@ -103,9 +202,11 @@ export default function StepperComponent(){
                                     required
                                     fullWidth
                                     margin='normal'
+                                    onChange={(e)=>setMobileValue(e.target.value)}
                                     width="50%"
-                                    id="forgotEmail"
-                                    label="Email Address"
+                                    value={mobileValue}
+                                    id="mobile"
+                                    label='Mobile'
                             ></TextField>
                         </form>
                     </Grid>
@@ -121,6 +222,8 @@ export default function StepperComponent(){
                                     variant="standard"
                                     fullWidth
                                     margin="normal"
+                                    value={confirmValue}
+                                    onChange={(e)=>setConfirmValue(e.target.value)}
                                     id="confirmCode"
                                     label="Confirm Code"
                                 ></TextField>
@@ -131,22 +234,35 @@ export default function StepperComponent(){
                         <form className={classes.form}>
                             <div>
                                 <Typography>
-                                        You Password Reseted
+                                        Your Password Reseted
                                 </Typography>
                             </div>
                             <div>
+                            <form className={classes.form}>
+                                <TextField
+                                        variant="standard"
+                                        required
+                                        fullWidth
+                                        margin='normal'
+                                        onChange={(e)=>setPasswordValue(e.target.value)}
+                                        width="50%"
+                                        value={passwordValue}
+                                        id="password"
+                                        label='Password'
+                                ></TextField>
+                            </form>
                             </div>
                         </form>
                     </Grid>
-                    <Grid item xs={12} style={{marginBottom:'40px',bottom:0,position:'absolute'}}>
+                    <Grid item xs={12} style={{bottom:0}}>
                             <Typography>This is</Typography>
                             <div>
                                 <Button disabled={activeBack} onClick={handleBack}>Back</Button>
-                                {/* <Button className={classes.button} style={skipped==0?{display:'none'}:{display:'absolute'}} variant="contained" color="primary">Skip</Button> */}
-                                <Button className={classes.button} variant="contained" color="primary" onClick={handleNext}>Next</Button>
+                                <Button disabled={activeNext} className={classes.button} variant="contained" color="primary" onClick={handleNext}  >{currentStep>=2?'OK':'Next'}</Button>
                             </div>
                     </Grid>
                 </Grid>
+                <SnackBarComponent ref={snackRef}></SnackBarComponent>
         </div>
     )
 }

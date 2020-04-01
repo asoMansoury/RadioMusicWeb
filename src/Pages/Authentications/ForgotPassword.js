@@ -8,17 +8,15 @@ import StepperComponent from './StepperComponent';
 const useStyles = makeStyles(theme=>({
     modal:{
         display:'flex',
-        aligntItems:'center',
+        alignItems:'center',
         justifyContent:'center',
-        
+        margin:'0 auto'
         
     },
     paper:{
         backgroundColor:theme.palette.background.paper,
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        width:'90%',
-        height:'90%'
     }
 }))
 
@@ -26,6 +24,7 @@ const useStyles = makeStyles(theme=>({
 
 const ForgotPassword =({setIshoShowModal,isShowModal},props)=>{
     const classes = useStyles();
+
     const handleClose = () =>{
         setIshoShowModal();
     }
@@ -42,11 +41,19 @@ const ForgotPassword =({setIshoShowModal,isShowModal},props)=>{
             BackdropProps = {{
                 timeout:500
             }}>
-                <Fade in={isShowModal}>
-                <div className={[classes.paper]} style={props.isSm?{ marginTop:'.2rem'}:{ marginTop:'3rem'}} id="ddd">
-                    <StepperComponent></StepperComponent>
+                <div style={{width:'60%',margin:'0 auto'}}>
+                    <Fade in={isShowModal}>
+                        <div>
+                            <div className={[classes.paper]} style={props.isSm?{ marginTop:'.2rem'}:{ marginTop:'3rem'}} id="ddd">
+                            <StepperComponent setIshoShowModal={setIshoShowModal}></StepperComponent>
+
+                            </div>
+                        </div>
+                    </Fade>
+
                 </div>
-                </Fade>
+
+                
         </Modal>
     )
 }

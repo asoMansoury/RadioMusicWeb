@@ -42,12 +42,14 @@ const useStyles = makeStyles(theme =>({
 function SignInComponent(props) {
     const snackRef = React.useRef();
     const [emailValue,setEmail] = React.useState("")
+    const [passwordValue,setPassword]= React.useState("")
+    const [isUserLoggedIn,setIsUserLoggedIn]=React.useState(false);
     const handleEmailText= (value)=>{
         setEmail(value)
         handleDisableSignInBtn(value,passwordValue)
     }
 
-    const [passwordValue,setPassword]= React.useState("")
+
     const handlePasswordTxt = (value)=>{
         setPassword(value)
         handleDisableSignInBtn(emailValue,value)
@@ -81,16 +83,17 @@ function SignInComponent(props) {
                     userName:res.data.userName,
                     email:res.data.email
                 }
+                setIsUserLoggedIn(true);
                 props.setUserLogin(true);
                 props.saveUserInformation(userInfo);
-                console.log(props.isUserLoggedIn);
             }
         });
     }
 
     
     const classes = useStyles();
-    if(props.isUserLoggedIn){
+    // if(props.isUserLoggedIn)
+    if(isUserLoggedIn){
        return <Redirect to="/AdminPanel"></Redirect>
     }else
     return(

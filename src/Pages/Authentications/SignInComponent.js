@@ -15,7 +15,6 @@ import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import {connect} from 'react-redux';
 import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
 import { Redirect} from 'react-router-dom'
-
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -84,14 +83,17 @@ function SignInComponent(props) {
                 }
                 props.setUserLogin(true);
                 props.saveUserInformation(userInfo);
+                
             }
         });
     }
 
     
     const classes = useStyles();
+    if(props.isLoaded==false){
+        return <div style={{backgroundColor:'black',height:2000,width:2000}}>loading ...</div>
+    }else{
     if(props.isUserLoggedIn){
-    // if(isUserLoggedIn){
        return <Redirect to="/AdminPanel"></Redirect>
     }else
     return(
@@ -146,13 +148,15 @@ function SignInComponent(props) {
             </form>
             <SnackBarComponent ref={snackRef}></SnackBarComponent>
     </div>   
-    )
+    )        
+    }
 }
 
 const mapStateToProps = state => {
     return {
         isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
-      userInformation:state.UserIsLogin.userInformation
+      userInformation:state.UserIsLogin.userInformation,
+      isLoaded:state._persist.rehydrated
     };
   };
   

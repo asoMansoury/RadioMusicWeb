@@ -6,10 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Toolbar, } from '@material-ui/core';
 import clsx from 'clsx'
+import AdminPanelContext from '../../Context/AdminPanelContext';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 
 const useStyles =makeStyles(theme=>({
     root:{
-        flexGrow:1
     },
 
     menuButton:{
@@ -32,10 +34,11 @@ const useStyles =makeStyles(theme=>({
         marginRight:40
     },
     appBar:{
-        transition:theme.transitions.create(['margin','widt'],{
+        transition:theme.transitions.create(['margin','width'],{
             easing:theme.transitions.easing.sharp,
             duration:theme.transitions.duration.leavingScreen
-        })
+        }),
+        backgroundColor: '#388E3C'
     },
     appBarShift:{
         width:`calc(100% - ${170}px)`,
@@ -51,14 +54,13 @@ const AppBarCustom =({openDrawer,openVal},props)=>{
     const handleDrawerOpen = () =>{
         openDrawer();
     }
-
     return(
-        <div className={classes.root}>
-            <AppBar position="fixed" 
+        <AdminPanelContext.Consumer>
+            {value =>(
+                <AppBar position="fixed" 
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: openVal,
-                })}
-                style={{backgroundColor:'#607D8B'}}>
+                })}>
                 <Toolbar style={{direction:"rtl"}}>
                     <IconButton className={clsx(classes.menuButton,{
                         [classes.menuButtonL]:openVal,
@@ -68,13 +70,13 @@ const AppBarCustom =({openDrawer,openVal},props)=>{
                     <div  className={clsx(classes.title,{
                         [classes.titleShift]:openVal
                     })}>
-                        sdf
+                        {value.userInformation.email}
                     </div>
-                    <Button color="inherit">Log Out</Button>
+                    <div ><Button style={{transform: `rotate(180deg)`}}  color="inherit" onClick={()=>{value.setUserLogin(false);value.saveUserInformation({})}}><ExitToAppIcon fontSize='large' ></ExitToAppIcon></Button></div>
                 </Toolbar>
             </AppBar>
-
-        </div>
+            )}
+        </AdminPanelContext.Consumer>
     )
 }
 

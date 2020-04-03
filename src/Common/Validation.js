@@ -1,6 +1,7 @@
 export class Validation {
   static validEmail(email) {
-    let reg = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
+    let reg = /^[\w\-.+]+@[a-zA-Z0-9.-]+\.[a-zA-z0-9]{2,5}$/;
+    // let reg = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,5}$/;
     if (reg.test(email) === true) {
       return true;
     }
@@ -17,7 +18,7 @@ export class Validation {
   }
 
   static checkPassword(Password, ConfirmPassword) {
-    if (Password == ConfirmPassword) {
+    if (Password === ConfirmPassword) {
       return true;
     } else {
       return false;

@@ -10,7 +10,7 @@ import {withStyles} from '@material-ui/core/styles';
 import ChackPageContext from '../../Context/AdminPanelContext';
 import SnackBarComponent from '../../CommonComponents/SnackBarComponent';
 import axios from 'axios';
-import Axios from 'axios';
+
 
 // const theme = createMuiTheme({
 //     palette:{
@@ -64,7 +64,7 @@ const ManageRoles = () =>{
 
 
     const handleClick = childRef =>()=>{
-      Axios.post("http://localhost:53094/api/userapi/Login",{
+      axios.post("http://localhost:53094/api/userapi/Login",{
         userName: 'usernameL',
         password: 'passwordL'
       }).then(function (response) {

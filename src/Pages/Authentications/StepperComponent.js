@@ -205,7 +205,7 @@ export default function StepperComponent(props){
                                     onChange={(e)=>setMobileValue(e.target.value)}
                                     width="50%"
                                     value={mobileValue}
-                                    id="mobile"
+                                    id="mobileReset"
                                     label='Mobile'
                             ></TextField>
                         </form>
@@ -213,7 +213,7 @@ export default function StepperComponent(props){
                     <Grid item xs={12}  style={currentStep===1?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <div>
-                                <Typography>
+                                <Typography id="typoGraphySendCode">
                                         We Send Confirmation Code To You'r Email Please Enter It On This Text
                                 </Typography>
                             </div>
@@ -224,7 +224,7 @@ export default function StepperComponent(props){
                                     margin="normal"
                                     value={confirmValue}
                                     onChange={(e)=>setConfirmValue(e.target.value)}
-                                    id="confirmCode"
+                                    id="confirmCodeReset"
                                     label="Confirm Code"
                                 ></TextField>
                             </div>
@@ -233,7 +233,7 @@ export default function StepperComponent(props){
                     <Grid item xs={12}  style={currentStep===2?{display:'block'}:{display:'none'}}>
                         <form className={classes.form}>
                             <div>
-                                <Typography>
+                                <Typography id="typoGraphyDone">
                                         Your Password Reseted
                                 </Typography>
                             </div>
@@ -247,7 +247,7 @@ export default function StepperComponent(props){
                                         onChange={(e)=>setPasswordValue(e.target.value)}
                                         width="50%"
                                         value={passwordValue}
-                                        id="password"
+                                        id="passwordReset"
                                         label='Password'
                                 ></TextField>
                             </form>
@@ -257,8 +257,8 @@ export default function StepperComponent(props){
                     <Grid item xs={12} style={{bottom:0}}>
                             <Typography>This is</Typography>
                             <div>
-                                <Button disabled={activeBack} onClick={handleBack}>Back</Button>
-                                <Button disabled={activeNext} className={classes.button} variant="contained" color="primary" onClick={handleNext}  >{currentStep>=2?'OK':'Next'}</Button>
+                                <Button disabled={activeBack} id="btnBackRes" onClick={handleBack}>Back</Button>
+                                <Button disabled={activeNext} className={classes.button} id="btnNextRes" variant="contained" color="primary" onClick={handleNext}  >{currentStep>=2?'OK':'Next'}</Button>
                             </div>
                     </Grid>
                 </Grid>

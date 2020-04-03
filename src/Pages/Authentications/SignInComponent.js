@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
 import {BaseApiUrl} from './../../Common/Constant';
 import SnackBarComponent from './../CommonComponents/SnackBarComponent';
+import commonUtility from './../../Common/utiliy';
 import {connect} from 'react-redux';
 import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
 import { Redirect} from 'react-router-dom'
@@ -111,8 +112,8 @@ function SignInComponent(props) {
                     margin="normal"
                     fullWidth
                     onChange={(event)=>handleEmailText(event.target.value)}
-                    id="email"
-                    label="Email Address"
+                    id="emailSignIn"
+                    label={commonUtility.getElementTitle("emailSignIn")}
                     name="email"
                     autoComplete="email"
                     value={emailValue}
@@ -126,23 +127,24 @@ function SignInComponent(props) {
                     fullWidth
                     value={passwordValue}
                     onChange={(event)=>handlePasswordTxt(event.target.value)}
-                    id="password"
-                    label = "Password"
+                    id="passwordSignIn"
+                    label={commonUtility.getElementTitle("passwordSignIn")}
                     name="password"
                     autoComplete="current-password">
                 </TextField>
-                <FormControlLabel
+                <FormControlLabel id="chkRememberMe"
                     control={<Checkbox onChange={handleRememberMe}  checked={rememberMeValue} ></Checkbox>}
-                    label="Remember me" style={{color:'black'}}
+                    label={commonUtility.getElementTitle("chkRememberMe")} style={{color:'black'}}
                 ></FormControlLabel>
                 <Button
                     type="button"
                     fullWidth
+                    id="btnLogin"
                     disabled={isDisableSignInBtn}
                     variant="contained"
                     onClick={signInEvent(snackRef)}
                     className={classes.submit}>
-                    Sign In
+                    {commonUtility.getElementTitle("btnLogin")}
                 </Button>
                     {props.children}
             </form>
@@ -155,8 +157,8 @@ function SignInComponent(props) {
 const mapStateToProps = state => {
     return {
         isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
-      userInformation:state.UserIsLogin.userInformation,
-      isLoaded:state._persist.rehydrated
+        userInformation:state.UserIsLogin.userInformation,
+        isLoaded:state._persist.rehydrated
     };
   };
   

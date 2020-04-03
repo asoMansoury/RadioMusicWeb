@@ -50,8 +50,8 @@ export default function SignInComponent(props) {
 
 
     const checkMobileValid = () => {
-        if(mobileValue!=""){
-            if(Validation.checkMobile(mobileValue)==false){
+        if(mobileValue!==""){
+            if(Validation.checkMobile(mobileValue)===false){
                 snackRef.current.showSnackBar("فرمت موبایل صحیح نمی باشد","error");
                 setDisableSignUpBtn(true)
             }else{
@@ -76,15 +76,15 @@ export default function SignInComponent(props) {
         }
       };
     const  CheckUserName = () => {
-        if(userNameValue!=''){
+        if(userNameValue!==''){
             var data = {
                 userName: userNameValue,
               };
               axios.post(BaseApiUrl + '/UserApi/CheckUserName', data).then(res => {
-                if (res.data.isError == true) {
+                if (res.data.isError === true) {
                   snackRef.current.showSnackBar(res.data.Errors.Message,"error");
                 } else {
-                  if (res.data.isUserNameExist == true) {
+                  if (res.data.isUserNameExist === true) {
                     snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"error");
                   } else {
                     snackRef.current.showSnackBar(res.data.isUserNameExistMessage,"success");
@@ -96,7 +96,7 @@ export default function SignInComponent(props) {
         }
       };
     const checkEmailValid = () => {
-        if(emailValue!=''){
+        if(emailValue!==''){
             if(Validation.validEmail(emailValue)===false){
                 snackRef.current.showSnackBar("فرمت ایمیل صحیح نمی باشد","error");
                 setDisableSignUpBtn(true)
@@ -122,7 +122,7 @@ export default function SignInComponent(props) {
       };
     const checkConfirmPassword=()=>{
         if(passwordValue!==''&&confirmPasswordValue!==''){
-            if(Validation.checkPassword(passwordValue,confirmPasswordValue)==false){
+            if(Validation.checkPassword(passwordValue,confirmPasswordValue)===false){
                 snackRef.current.showSnackBar("پسورد به درستی وارد نشده است","error");
                 setDisableSignUpBtn(true)
             }else{

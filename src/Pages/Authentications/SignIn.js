@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {useTheme} from '@material-ui/core/styles'
 import SignInIcon from '@material-ui/icons/VpnKey';
@@ -18,8 +19,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Copyright from './../CommonComponents/CopyRight';
 import Link from '@material-ui/core/Link';
 import {connect} from 'react-redux';
-import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType'
-
+import {setLanguage} from './../../Redux/actions/actionType';
+import commonUtility from './../../Common/utiliy';
+import {BaseApiUrl} from './../../Common/Constant';
+import axios from 'axios';
 const useStyles = makeStyles(theme =>({
     root:{
         height:'100vh'
@@ -71,110 +74,128 @@ function TabPanel(props){
 
 
 const  SignIn=(props)=>{
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const theme = useTheme();
-    const handleChange =(event,newValue)=>{
-        setValue(newValue);
+    if(props.isLoaded===false){
+        return <div style={{backgroundColor:'black',height:2000,width:2000}}>loading ...</div>
     }
-
-    const isSMMode =useMediaQuery(theme.breakpoints.down('sm'));
-    const [isShowModal,setIsShowModal] = React.useState(false);
-    const  handleClickModal =()=>{
-        setIsShowModal(true);
-    }
-
-    const  handleCloseModal =()=>{
-        setIsShowModal(false);
-    }
-    
-
-    
-    
-    return (
-        <div className={classes.root}>
-                                    {/* <FormControl>
-                            <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
-                            <InputLabel htmlFor="my-input">Email address</InputLabel>
-                            <Input id="my-input" aria-describedby="my-helper-text" />
-                        </FormControl> */}
-            <Grid container component='main' className={classes.root} id='headrTab'>
-                <ForgotPassword  isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
-                <CssBaseline></CssBaseline>
-                <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
-                <Grid item xs={12} sm={8} md={6} component={Paper}>
-                    <AppBar position="static" color="default">
-                            <Tabs 
-                                value={value}
-                                onChange={handleChange}
-                                scrollButtons="on"
-                                indicatorColor="secondary"
-                                textColor="primary"
-                                aria-label="scrollable force tabs example">
-                                <Tab label="Sign In" icon={<SignInIcon></SignInIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
-                                <Tab label="Sign UP" icon={<SignUpIcon></SignUpIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
-                            </Tabs>
-                    </AppBar>
-                    <TabPanel value={value} index={0}>
-                        <SingInComponent>
-                                <Grid container>
-                                    <Grid item xs>
-                                        <Link href="#" variant ="body2" onClick={handleClickModal}> 
-                                        Forgot password?
-                                        </Link>
+    else
+        {
+            const classes = useStyles();
+            const [elementTitle,setElementsTitle] = React.useState();
+            const [value, setValue] = React.useState(0);
+            const theme = useTheme();
+            const handleChange =(event,newValue)=>{
+                setValue(newValue);
+            }
+        
+            
+            const isSMMode =useMediaQuery(theme.breakpoints.down('sm'));
+            const [isShowModal,setIsShowModal] = React.useState(false);
+            const  handleClickModal =()=>{
+                setIsShowModal(true);
+            }
+        
+            const  handleCloseModal =()=>{
+                setIsShowModal(false);
+            }
+            
+            React.useEffect(()=>{
+                var data = {
+                    TLanguageID: props.configApp.TLanguageID,
+                    Key: "Authentication"
+                    }
+                axios
+                .post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
+                .then(res => {
+                  if (res.data.isError === true) {
+                  } else {
+                      setElementsTitle(res.data.FronEndPages);
+                      commonUtility.setElements(elementTitle);
+                      
+                  }
+                },[elementTitle]);
+                
+            })
+            
+            
+            return (
+                <div className={classes.root}>
+                    <Grid container component='main' className={classes.root} id='headrTab'>
+                        <ForgotPassword  isSm={isSMMode} isShowModal={isShowModal} setIshoShowModal={handleCloseModal}></ForgotPassword>
+                        <CssBaseline></CssBaseline>
+                        <Grid item xs={false} sm={4} md={6} className={classes.image}></Grid>
+                        <Grid item xs={12} sm={8} md={6} component={Paper}>
+                            <AppBar position="static" color="default">
+                                    <Tabs 
+                                        value={value}
+                                        onChange={handleChange}
+                                        scrollButtons="on"
+                                        indicatorColor="secondary"
+                                        textColor="primary"
+                                        aria-label="scrollable force tabs example">
+                                        <Tab id="SignInTab" label={commonUtility.getElementTitle("SignInTab")} icon={<SignInIcon></SignInIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
+                                        <Tab id="SignUpTab" label={commonUtility.getElementTitle("SignUpTab")} icon={<SignUpIcon></SignUpIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
+                                    </Tabs>
+                            </AppBar>
+                            <TabPanel value={value} index={0}>
+                                <SingInComponent>
+                                        <Grid container>
+                                            <Grid item xs>
+                                                <Link href="/Authentication#" variant ="body2" id="forgotPasswordLnk" onClick={handleClickModal}> 
+                                                {commonUtility.getElementTitle("forgotPasswordLnk")}
+                                                </Link>
+                                            </Grid>
+                                            <Grid item>
+                                                <Link href="#" variant ="body2" id="DontHaveAccountLnk">
+                                                    {commonUtility.getElementTitle("DontHaveAccountLnk")}
+                                                </Link>
+                                            </Grid>
+                                        </Grid>
+                                        <Box mt={5}>
+                                            <Copyright />
+                                        </Box>
+                                </SingInComponent>
+                            </TabPanel>
+                            <TabPanel value={value} index={1}>
+                                <SingUpComponent>
+                                    <Grid container>
+                                        <Grid item xs>
+                                            <Link id="forgotPasswordLnk" href="/Authentication#" variant ="body2" onClick={handleClickModal}>
+                                            {commonUtility.getElementTitle("forgotPasswordLnk")}
+                                            </Link>
+                                        </Grid>
+                                        <Grid item>
+                                            <Link href="#" variant ="body2" id="DontHaveAccountLnk">
+                                                {commonUtility.getElementTitle("DontHaveAccountLnk")}
+                                            </Link>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <Link href="#" variant ="body2">
-                                            {"Don't have an account? Sign Up"}
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                                <Box mt={5}>
-                                    <Copyright />
-                                </Box>
-                        </SingInComponent>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <SingUpComponent>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant ="body2" onClick={handleClickModal}>
-                                    Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant ="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                                <Box mt={5}>
-                                    <Copyright />
-                                </Box>   
-                         </SingUpComponent>           
-                    </TabPanel>
-                </Grid>
-            </Grid>
-        </div>
-    )
-    
+                                        <Box mt={5}>
+                                            <Copyright />
+                                        </Box>   
+                                 </SingUpComponent>           
+                            </TabPanel>
+                        </Grid>
+                    </Grid>
+                </div>
+            )
+            
+        }
+        
+    }
+
+const mapStateToProps = state => {
+    return {
+        configApp: state.configApp,
+        isLoaded:state._persist.rehydrated
+    };
+};
+      
+const mapDispatchToProps = dispath => {
+    return {
+        setLanguage:value=>{
+            dispath(setLanguage(value))
+        }
+    };
 }
 
-// const mapStateToProps = state => {
-//     return {
-//       isUserLogged: state.UserIsLogin
-//     };
-//   };
-  
-//   const mapDispatchToProps = dispath => {
-//     return {
-//         setUserLogin:value=>{
-//             dispath(isUserLogin(value))
-//         },
-//         saveUserInformation:value=>{
-//             dispath(saveUserInformation(value))
-//         }
-//     };
-//   };
-
-export default  SignIn;
+export default  connect(mapStateToProps,mapDispatchToProps)(SignIn);

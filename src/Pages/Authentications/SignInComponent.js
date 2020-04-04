@@ -15,7 +15,8 @@ import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import commonUtility from './../../Common/utiliy';
 import {connect} from 'react-redux';
 import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
-import { Redirect} from 'react-router-dom'
+import { Redirect} from 'react-router-dom';
+import {Validation} from './../../Common/Validation';
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -43,14 +44,27 @@ function SignInComponent(props) {
     const snackRef = React.useRef();
     const [emailValue,setEmail] = React.useState("")
     const [passwordValue,setPassword]= React.useState("")
+    const [emailIsValid,setEmailIsValid]= React.useState(true);
+    const [passwordIsValid,setPasswordIsValid]= React.useState(true);
     const handleEmailText= (value)=>{
         setEmail(value)
+
+        if(Validation.validEmail(value)===false){
+            setEmailIsValid(true)
+        }else{
+            setEmailIsValid(false)
+        }
         handleDisableSignInBtn(value,passwordValue)
     }
 
 
     const handlePasswordTxt = (value)=>{
         setPassword(value)
+        if(value!=''){
+            setPasswordIsValid(false)
+        }else{
+            setPasswordIsValid(true)
+        }
         handleDisableSignInBtn(emailValue,value)
     }
 
@@ -116,6 +130,7 @@ function SignInComponent(props) {
                     label={commonUtility.getElementTitle("emailSignIn")}
                     name="email"
                     autoComplete="email"
+                    error={emailIsValid}
                     value={emailValue}
                     autoFocus
                 ></TextField>
@@ -125,6 +140,7 @@ function SignInComponent(props) {
                     margin="normal"
                     security="true"
                     fullWidth
+                    error={passwordIsValid}
                     value={passwordValue}
                     onChange={(event)=>handlePasswordTxt(event.target.value)}
                     id="passwordSignIn"

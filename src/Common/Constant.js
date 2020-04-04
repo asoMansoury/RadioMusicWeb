@@ -15,6 +15,6 @@ export const RoutesKey ={
     Root:"/",
     Home:"/Home",
     Authentication:"/Authentication",
-    AdminPanel:"AdminPanel"
+    AdminPanel:"/AdminPanel"
 
 }

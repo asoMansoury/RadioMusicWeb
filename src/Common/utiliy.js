@@ -12,6 +12,7 @@ export default  class commonUtility {
     }
 
     static setElements(value){
+        
         this.Elements = value
     }
 

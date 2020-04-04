@@ -15,7 +15,7 @@ export const saveUserInformation = (userInformation)=>{
     }
 }
 
-export const setLanguage = (value=TLanguageID.English)=>{
+export const setLanguage = (value)=>{
     return {
         type:SET_TLANGUAGE,
         payload:value

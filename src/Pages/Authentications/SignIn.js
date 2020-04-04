@@ -109,12 +109,13 @@ const  SignIn=(props)=>{
                   if (res.data.isError === true) {
                   } else {
                       setElementsTitle(res.data.FronEndPages);
-                      commonUtility.setElements(elementTitle);
+                      
+                      commonUtility.setElements(res.data.FronEndPages);
+                      props.setLanguage(props.configApp.TLanguageID)
                       
                   }
-                },[elementTitle]);
-                
-            })
+                });
+            }, [])
             
             
             return (

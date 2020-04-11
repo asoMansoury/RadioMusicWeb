@@ -44,8 +44,8 @@ function SignInComponent(props) {
     const snackRef = React.useRef();
     const [emailValue,setEmail] = React.useState("")
     const [passwordValue,setPassword]= React.useState("")
-    const [emailIsValid,setEmailIsValid]= React.useState(true);
-    const [passwordIsValid,setPasswordIsValid]= React.useState(true);
+    const [emailIsValid,setEmailIsValid]= React.useState(false);
+    const [passwordIsValid,setPasswordIsValid]= React.useState(false);
     const handleEmailText= (value)=>{
         setEmail(value)
 

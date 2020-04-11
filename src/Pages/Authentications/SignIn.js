@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {useTheme} from '@material-ui/core/styles'
@@ -18,10 +19,13 @@ import ForgotPassword from './ForgotPassword';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Copyright from './../CommonComponents/CopyRight';
 import Link from '@material-ui/core/Link';
+import Settings from '@material-ui/icons/Settings';
 import {connect} from 'react-redux';
-import {setLanguage} from './../../Redux/actions/actionType';
+import {setLanguage,setFilterLanguage} from './../../Redux/actions/actionType';
 import commonUtility from './../../Common/utiliy';
-import {BaseApiUrl} from './../../Common/Constant';
+import {BaseApiUrl, TLanguageID} from './../../Common/Constant';
+import 'react-tiny-fab/dist/styles.css';
+import { Fab, Action } from 'react-tiny-fab';
 import axios from 'axios';
 const useStyles = makeStyles(theme =>({
     root:{
@@ -80,7 +84,6 @@ const  SignIn=(props)=>{
     else
         {
             const classes = useStyles();
-            const [elementTitle,setElementsTitle] = React.useState();
             const [value, setValue] = React.useState(0);
             const theme = useTheme();
             const handleChange =(event,newValue)=>{
@@ -99,22 +102,7 @@ const  SignIn=(props)=>{
             }
             
             React.useEffect(()=>{
-                var data = {
-                    TLanguageID: props.configApp.TLanguageID,
-                    Key: "Authentication"
-                    }
-                axios
-                .post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
-                .then(res => {
-                  if (res.data.isError === true) {
-                  } else {
-                      setElementsTitle(res.data.FronEndPages);
-                      
-                      commonUtility.setElements(res.data.FronEndPages);
-                      props.setLanguage(props.configApp.TLanguageID)
-                      
-                  }
-                });
+                props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
             }, [])
             
             
@@ -177,9 +165,23 @@ const  SignIn=(props)=>{
                             </TabPanel>
                         </Grid>
                     </Grid>
+                    <Fab
+                        mainButtonStyles={{backgroundColor:'red'}}
+                        actionButtonStyles={{backgroundColor:'black'}}
+                        icon={<Settings></Settings>}>
+                        <Action
+                            text="English"
+                            style={{backgroundColor:'#f50057'}}
+                            onClick={()=>{props.setLanguage({TLanguageID:TLanguageID.English});props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.English})}}
+                        />
+                            <Action
+                                text="Persian"
+                                style={{backgroundColor:'#f50057'}}
+                                onClick={()=>{props.setLanguage({TLanguageID:TLanguageID.Persian});props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.Persian})}}
+                        />
+                    </Fab>
                 </div>
             )
-            
         }
         
     }
@@ -195,6 +197,26 @@ const mapDispatchToProps = dispath => {
     return {
         setLanguage:value=>{
             dispath(setLanguage(value))
+        },
+        setFilterLanguage:value=>{
+            
+            var data = {
+                TLanguageID: value.TLanguageID,
+                Key: value.Key,
+                PlatformType:5
+            }
+            console.log(data)
+            axios
+            .post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
+            .then(res => {
+              if (res.data.isError === true) {
+                dispath(setFilterLanguage(null))
+              } else {
+                  
+                commonUtility.setElements(res.data.FronEndPages)
+                dispath(setFilterLanguage(res.data.FronEndPages))
+              }
+            });  
         }
     };
 }

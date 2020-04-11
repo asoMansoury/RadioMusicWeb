@@ -66,7 +66,6 @@ const useStyles =makeStyles(theme=>({
 
 
 const AdminPanel =(props)=>{
-    console.log("Admin Panel")
     if(props.isLoaded===false){
         return <div>helloooooooooooooooooo</div>
     }else

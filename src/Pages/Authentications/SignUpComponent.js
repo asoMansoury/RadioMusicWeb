@@ -11,6 +11,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import {BaseApiUrl} from './../../Common/Constant';
 import axios from 'axios';
 import {Validation} from './../../Common/Validation';
+import commonUtility from './../../Common/utiliy';
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -201,8 +202,8 @@ export default function SignInComponent(props) {
                         required
                         margin="normal"
                         fullWidth
-                        id="mobile"
-                        label="Mobile"
+                        id="mobileReg"
+                        label={commonUtility.getElementTitle("mobileReg")}
                         name="mobile"
                         autoComplete="mobile"
                         onChange={(event)=>setMobile(event.target.value)}
@@ -214,8 +215,8 @@ export default function SignInComponent(props) {
                         required
                         margin="normal"
                         fullWidth
-                        id="username"
-                        label="UserName"
+                        label={commonUtility.getElementTitle("usernameReg")}
+                        id="usernameReg"
                         name="userName"
                         autoComplete="username"
                         onChange={(event)=>setUserName(event.target.value)}
@@ -227,8 +228,8 @@ export default function SignInComponent(props) {
                         required
                         margin="normal"
                         fullWidth
-                        id="email"
-                        label="Email Address"
+                        id="emailReg"
+                        label={commonUtility.getElementTitle("emailReg")}
                         name="email"
                         autoComplete="email"
                         onChange={(event)=>setEmail(event.target.value)}
@@ -241,8 +242,8 @@ export default function SignInComponent(props) {
                         margin="normal"
                         security="true"
                         fullWidth
-                        id="password"
-                        label = "Password"
+                        id="passwordReg"
+                        label={commonUtility.getElementTitle("passwordReg")}
                         name="password"
                         onChange={(event)=>setPassword(event.target.value)}
                         autoComplete="current-password"
@@ -256,8 +257,8 @@ export default function SignInComponent(props) {
                         margin="normal"
                         security="true"
                         fullWidth
-                        id="confirmPassword"
-                        label = "Confirm Password"
+                        id="confirmPasswordReg"
+                        label={commonUtility.getElementTitle("confirmPasswordReg")}
                         onChange={(event)=>setConfirmPassword(event.target.value)}
                         name="confirmPassword"
                         autoComplete="current-password"
@@ -269,11 +270,12 @@ export default function SignInComponent(props) {
                 disabled={disableSignUpBtn}
                     type="button"
                     fullWidth
+                    id="btnRegister"
                     variant="contained"
                     className={classes.submit}
                     onClick={(event)=>SignUpEvent(event)}
                 >
-                    Sign Up
+                    {commonUtility.getElementTitle("btnRegister")}
                 </Button>
                 {props.children}
             </form>

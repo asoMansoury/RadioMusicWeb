@@ -6,11 +6,12 @@ const initState = {
 }
 
 export const configApp = (state=initState,action)=>{
-    let result = {};
+    
     switch (action.type) {
         
         case SET_TLANGUAGE:
         {
+            let result = {};
             result = {
                 ...state,
                 TLanguageID:action.payload     
@@ -21,7 +22,7 @@ export const configApp = (state=initState,action)=>{
         case SET_FILTER_ELEMENT:
         {
             let elementResult = {
-                ...state,
+                TLanguageID:state.TLanguageID,
                 Elements:action.payload,
             }
         return elementResult;

@@ -78,11 +78,6 @@ function TabPanel(props){
 
 
 const  SignIn=(props)=>{
-    if(props.isLoaded===false){
-        return <div style={{backgroundColor:'black',height:2000,width:2000}}>loading ...</div>
-    }
-    else
-        {
             const classes = useStyles();
             const [value, setValue] = React.useState(0);
             const theme = useTheme();
@@ -101,7 +96,7 @@ const  SignIn=(props)=>{
             const  handleCloseModal =()=>{
                 setIsShowModal(false);
             }
-            
+
             React.useEffect(()=>{
                 axios.get(BaseApiUrl + '/LanguageApi/GetLanguages').then(res => {
 
@@ -110,6 +105,9 @@ const  SignIn=(props)=>{
                         setLanguageHook(res.data.TLanguages);
                     }
                 });
+                
+                
+                
                 commonUtility.setTLanguageCode(props.configApp.TLanguageID);
                 props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
             }, [])
@@ -183,14 +181,14 @@ const  SignIn=(props)=>{
                                     return <Action
                                     text={item.Language}
                                     style={{backgroundColor:'#f50057'}}
-                                    onClick={()=>{props.setLanguage(item.LanguageCode);props.setFilterLanguage({TLanguageID:item.LanguageCode,Key:'Authentication'});commonUtility.setTLanguageCode(item.LanguageCode);}}
+                                    onClick={()=>{props.setLanguageRedux(item.LanguageCode);props.setFilterLanguage({TLanguageID:item.LanguageCode,Key:'Authentication'});commonUtility.setTLanguageCode(item.LanguageCode);}}
                                 />
                                 })
                             }
                     </Fab>
                 </div>
             )
-        }
+        
         
     }
 
@@ -203,7 +201,7 @@ const mapStateToProps = state => {
       
 const mapDispatchToProps = dispath => {
     return {
-        setLanguage:value=>{
+        setLanguageRedux:value=>{
             dispath(setLanguage(value))
         },
         setFilterLanguage:value=>{
@@ -212,8 +210,7 @@ const mapDispatchToProps = dispath => {
                 Key: value.Key,
                 PlatformType:5
             }
-            axios
-            .post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
+            axios.post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
             .then(res => {
               if (res.data.isError === true) {
                 dispath(setFilterLanguage(null))

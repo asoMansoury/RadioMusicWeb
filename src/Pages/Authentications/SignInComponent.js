@@ -85,7 +85,8 @@ function SignInComponent(props) {
         var data = {
             email: emailValue,
             password: passwordValue,
-            isRemember:rememberMeValue
+            isRemember:rememberMeValue,
+            TLanguageCode:commonUtility.getTLanguageCode()
           };
         axios.post(BaseApiUrl + '/UserApi/Login', data).then(res => {
             if(res.data.isError==true){
@@ -174,7 +175,7 @@ const mapStateToProps = state => {
     return {
         isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
         userInformation:state.UserIsLogin.userInformation,
-        isLoaded:state._persist.rehydrated
+        isLoaded:state._persist.rehydrated,
     };
   };
   

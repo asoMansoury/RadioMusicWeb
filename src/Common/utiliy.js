@@ -1,8 +1,14 @@
 export default  class commonUtility {
     static UserInformation;
-
+    static TLanguageCode;
     static Elements;
 
+    static setTLanguageCode(value){
+        this.TLanguageCode = value;
+    }
+    static getTLanguageCode(){
+        return this.TLanguageCode;
+    }
     static  setUserInformation(value){
         this.UserInformation = value;
     }

@@ -1,9 +1,6 @@
 import {SET_TLANGUAGE,SET_FILTER_ELEMENT} from '../actions/constantActionss';
-import commonUtility from './../../Common/utiliy';
-import axios from 'axios';
-import {BaseApiUrl} from './../../Common/Constant'
 const initState = {
-    TLanguageID:2,
+    TLanguageID:"ENG",
     key:'Authentication',
     Elements:[]
 }
@@ -16,17 +13,17 @@ export const configApp = (state=initState,action)=>{
         {
             result = {
                 ...state,
-                TLanguageID:action.payload.TLanguageID
-                
-            }
+                TLanguageID:action.payload     
+        }
+        
         return result;
         }
         case SET_FILTER_ELEMENT:
         {
-        let elementResult = {
-            ...state,
-            Elements:action.payload
-        }
+            let elementResult = {
+                ...state,
+                Elements:action.payload,
+            }
         return elementResult;
         }
         default:

@@ -93,6 +93,7 @@ const  SignIn=(props)=>{
             
             const isSMMode =useMediaQuery(theme.breakpoints.down('sm'));
             const [isShowModal,setIsShowModal] = React.useState(false);
+            const [languageHook,setLanguageHook] = React.useState([]);
             const  handleClickModal =()=>{
                 setIsShowModal(true);
             }
@@ -102,9 +103,16 @@ const  SignIn=(props)=>{
             }
             
             React.useEffect(()=>{
+                axios.get(BaseApiUrl + '/LanguageApi/GetLanguages').then(res => {
+
+                    if(res.data.isError==true){
+                    }else{
+                        setLanguageHook(res.data.TLanguages);
+                    }
+                });
+                commonUtility.setTLanguageCode(props.configApp.TLanguageID);
                 props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
             }, [])
-            
             
             return (
                 <div className={classes.root}>
@@ -169,16 +177,16 @@ const  SignIn=(props)=>{
                         mainButtonStyles={{backgroundColor:'red'}}
                         actionButtonStyles={{backgroundColor:'black'}}
                         icon={<Settings></Settings>}>
-                        <Action
-                            text="English"
-                            style={{backgroundColor:'#f50057'}}
-                            onClick={()=>{props.setLanguage({TLanguageID:TLanguageID.English});props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.English})}}
-                        />
-                            <Action
-                                text="Persian"
-                                style={{backgroundColor:'#f50057'}}
-                                onClick={()=>{props.setLanguage({TLanguageID:TLanguageID.Persian});props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.Persian})}}
-                        />
+                            {
+                                languageHook.map(function(item,i){
+                                    
+                                    return <Action
+                                    text={item.Language}
+                                    style={{backgroundColor:'#f50057'}}
+                                    onClick={()=>{props.setLanguage(item.LanguageCode);props.setFilterLanguage({TLanguageID:item.LanguageCode,Key:'Authentication'});commonUtility.setTLanguageCode(item.LanguageCode);}}
+                                />
+                                })
+                            }
                     </Fab>
                 </div>
             )
@@ -199,20 +207,17 @@ const mapDispatchToProps = dispath => {
             dispath(setLanguage(value))
         },
         setFilterLanguage:value=>{
-            
             var data = {
                 TLanguageID: value.TLanguageID,
                 Key: value.Key,
                 PlatformType:5
             }
-            console.log(data)
             axios
             .post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
             .then(res => {
               if (res.data.isError === true) {
                 dispath(setFilterLanguage(null))
               } else {
-                  
                 commonUtility.setElements(res.data.FronEndPages)
                 dispath(setFilterLanguage(res.data.FronEndPages))
               }

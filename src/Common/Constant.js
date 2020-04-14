@@ -21,3 +21,12 @@ export const RoutesKey ={
     AdminPanel:"/AdminPanel"
 
 }
+
+export const UIErrorMessageCode = {
+    EmailIncorrect : "EMINC",
+    MobileFormat : "MBINC",
+    InputConfirmationCode:"INCAG",
+    PasswordMustInputted:"PMINP",
+    PasswordAndConfirmPasswordIsNotSame:"PACIN",
+    PasswordAndConfirmPasswordIsCorrect:"PACIV"
+}

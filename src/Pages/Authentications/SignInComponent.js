@@ -17,6 +17,7 @@ import {connect} from 'react-redux';
 import {saveUserInformation,isUserLogin} from './../../Redux/actions/actionType';
 import { Redirect} from 'react-router-dom';
 import {Validation} from './../../Common/Validation';
+import LoadingModal from './../CommonComponents/LoadinModal'
 const useStyles = makeStyles(theme =>({
     paper:{
        margin:theme.spacing(8,4) ,
@@ -46,6 +47,7 @@ function SignInComponent(props) {
     const [passwordValue,setPassword]= React.useState("")
     const [emailIsValid,setEmailIsValid]= React.useState(false);
     const [passwordIsValid,setPasswordIsValid]= React.useState(false);
+    const [isShowModal,setIsShowModal] = React.useState(false);
     const handleEmailText= (value)=>{
         setEmail(value)
 
@@ -88,6 +90,7 @@ function SignInComponent(props) {
             isRemember:rememberMeValue,
             TLanguageCode:commonUtility.getTLanguageCode()
           };
+        setIsShowModal(true);
         axios.post(BaseApiUrl + '/UserApi/Login', data).then(res => {
             if(res.data.isError==true){
                 childRef.current.showSnackBar(res.data.Errors.Message,"error");
@@ -101,14 +104,20 @@ function SignInComponent(props) {
                 props.saveUserInformation(userInfo);
                 
             }
+            handleCloseLoadingModal();
         });
-    }
 
+    }
+    const  handleCloseLoadingModal =()=>{
+        setIsShowModal(false);
+    }
     
     const classes = useStyles();
     if(props.isLoaded==false){
         return <div style={{backgroundColor:'black',height:2000,width:2000}}>loading ...</div>
-    }else{
+    }else
+    {
+    
     if(props.isUserLoggedIn){
        return <Redirect to="/AdminPanel"></Redirect>
     }else
@@ -166,6 +175,7 @@ function SignInComponent(props) {
                     {props.children}
             </form>
             <SnackBarComponent ref={snackRef}></SnackBarComponent>
+            <LoadingModal isShowModal={isShowModal} setIshoShowModal={handleCloseLoadingModal}></LoadingModal>
     </div>   
     )        
     }

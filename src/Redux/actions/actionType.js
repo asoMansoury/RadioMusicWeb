@@ -1,5 +1,4 @@
 import {SET_USER_INOFORMATION,SET_USER_LOGIN,SET_TLANGUAGE,SET_FILTER_ELEMENT} from './constantActionss';
-import {TLanguageID} from './../../Common/Constant'
 
 export const isUserLogin = (isLogin=false)=>{
     return {

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
-import {BaseApiUrl} from './../../Common/Constant';
+import {BaseApiUrl,UIErrorMessageCode} from './../../Common/Constant';
 import axios from 'axios';
 import {Validation} from './../../Common/Validation';
 import commonUtility from './../../Common/utiliy';
@@ -53,11 +53,12 @@ export default function SignInComponent(props) {
     const checkMobileValid = () => {
         if(mobileValue!==""){
             if(Validation.checkMobile(mobileValue)===false){
-                snackRef.current.showSnackBar("فرمت موبایل صحیح نمی باشد","error");
+                snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.MobileFormat),"error");
                 setDisableSignUpBtn(true)
             }else{
                 var data = {
                     Mobile: mobileValue,
+                    TLanguageCode:commonUtility.getTLanguageCode()
                   };
                   axios.post(BaseApiUrl + '/UserApi/CheckMobile', data).then(res => {
                     if (res.data.isError === true) {
@@ -80,6 +81,7 @@ export default function SignInComponent(props) {
         if(userNameValue!==''){
             var data = {
                 userName: userNameValue,
+                TLanguageCode:commonUtility.getTLanguageCode()
               };
               axios.post(BaseApiUrl + '/UserApi/CheckUserName', data).then(res => {
                 if (res.data.isError === true) {
@@ -99,11 +101,12 @@ export default function SignInComponent(props) {
     const checkEmailValid = () => {
         if(emailValue!==''){
             if(Validation.validEmail(emailValue)===false){
-                snackRef.current.showSnackBar("فرمت ایمیل صحیح نمی باشد","error");
+                snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.EmailIncorrect),"error");
                 setDisableSignUpBtn(true)
             }else{
                 var data = {
                     email: emailValue,
+                    TLanguageCode:commonUtility.getTLanguageCode()
                   };
                 axios.post(BaseApiUrl + '/UserApi/CheckEmail', data).then(res => {
                     if (res.data.isError === true) {
@@ -124,10 +127,10 @@ export default function SignInComponent(props) {
     const checkConfirmPassword=()=>{
         if(passwordValue!==''&&confirmPasswordValue!==''){
             if(Validation.checkPassword(passwordValue,confirmPasswordValue)===false){
-                snackRef.current.showSnackBar("پسورد به درستی وارد نشده است","error");
+                snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.PasswordAndConfirmPasswordIsNotSame),"error");
                 setDisableSignUpBtn(true)
             }else{
-                snackRef.current.showSnackBar("پسورد به درستی وارد شده است","success");
+                snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.PasswordAndConfirmPasswordIsCorrect),"success");
                 checkDisableBtn(); 
             }
            
@@ -155,6 +158,7 @@ export default function SignInComponent(props) {
             password: passwordValue,
             Mobile: mobileValue,
             userName: userNameValue,
+            TLanguageCode:commonUtility.getTLanguageCode
           };
       
           if(
@@ -172,16 +176,8 @@ export default function SignInComponent(props) {
             .then(res => {
               if (res.data.isError === true) {
                 snackRef.current.showSnackBar(res.data.Errors.Message,"error");
-                // this.props.setUserLogging(false);
               } else {
-                snackRef.current.showSnackBar( 'عملیات با موفقیت انجام گردید',"success");
-      
-                // const userInformation = {
-                //   mobile: data.Mobile,
-                //   userName: data.userName,
-                //   email: data.email,
-                // };
-                // this.props.saveUserInformation(userInformation);
+                snackRef.current.showSnackBar( res.data.Errors.Message,"success");
               }
             });
     }

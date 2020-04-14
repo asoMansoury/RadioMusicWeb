@@ -108,8 +108,8 @@ const  SignIn=(props)=>{
                 
                 
                 
-                commonUtility.setTLanguageCode(props.configApp.TLanguageID);
-                props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
+                commonUtility.setTLanguageCode(TLanguageID.English);
+                props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.English})
             }, [])
             
             return (
@@ -177,11 +177,16 @@ const  SignIn=(props)=>{
                         icon={<Settings></Settings>}>
                             {
                                 languageHook.map(function(item,i){
-                                    
                                     return <Action
                                     text={item.Language}
                                     style={{backgroundColor:'#f50057'}}
-                                    onClick={()=>{props.setLanguageRedux(item.LanguageCode);props.setFilterLanguage({TLanguageID:item.LanguageCode,Key:'Authentication'});commonUtility.setTLanguageCode(item.LanguageCode);}}
+                                    onClick={()=>{
+                                        props.setLanguageRedux(item.LanguageCode);
+                                        props.setFilterLanguage({TLanguageID:item.LanguageCode,Key:'Authentication'});
+                                        commonUtility.setTLanguageCode(item.LanguageCode);
+                                        commonUtility.setUIErrorMessages(item.LanguageCode)
+                                    }}
+                                        
                                 />
                                 })
                             }

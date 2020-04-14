@@ -9,7 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import {Validation} from './../../Common/Validation';
-import {BaseApiUrl} from './../../Common/Constant'
+import {BaseApiUrl,UIErrorMessageCode} from './../../Common/Constant';
+import commonUtility from './../../Common/utiliy';
+
 import axios from 'axios';
 
 const useStyles = makeStyles(theme=>({
@@ -75,6 +77,7 @@ export default function StepperComponent(props){
                 callNumber: mobileValue,
                 confirmationCode: confirmValue,
                 password: passwordValue,
+                TLID:commonUtility.TLanguageCode
               };
             axios
               .post(BaseApiUrl + '/MessageApi/ResetPassword', data)
@@ -82,7 +85,7 @@ export default function StepperComponent(props){
               if (res.data.isError === true) {
                 snackRef.current.showSnackBar(res.data.Errors.Message,"error");
               } else {
-                snackRef.current.showSnackBar("پسورد تغییر یافت","success");
+                snackRef.current.showSnackBar(res.data.Errors.Message,"success");
                 handleOperation();
               }
             })
@@ -91,7 +94,7 @@ export default function StepperComponent(props){
             });   
         }
         else{
-            snackRef.current.showSnackBar("پسورد نمی تواند خالی باشد","error");
+            snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.PasswordMustInputted),"error");
         } 
     }
 
@@ -101,6 +104,7 @@ export default function StepperComponent(props){
             var data = {
                 callNumber: mobileValue,
                 confirmationCode: confirmValue,
+                TLID:commonUtility.TLanguageCode
               };
               axios
               .post(BaseApiUrl + '/MessageApi/ConfirmVerificationCode', data)
@@ -116,16 +120,16 @@ export default function StepperComponent(props){
             });   
         }
         else{
-            snackRef.current.showSnackBar("کد ارسال شده را وارد نمایید","error");
+            snackRef.current.showSnackBar(UIErrorMessageCode.InputConfirmationCode,"error");
         } 
     }
     const SendVerificationCode =()=>{
         if(Validation.checkMobile(mobileValue)===true)
         {
-            axios.get(BaseApiUrl +'/MessageApi/SendVerificationCode?callNumber=/' +mobileValue)
+            axios.get(BaseApiUrl +'/MessageApi/SendVerificationCode?callNumber=/' +mobileValue+'&TLID='+commonUtility.TLanguageCode)
             .then(res => {
               if (res.data.isError === true) {
-                snackRef.current.showSnackBar("شماره موبایل معتبر نمی باشد","error");
+                snackRef.current.showSnackBar(res.data.Errors.Message,"error");
               } else {
                 handleOperation();
               }
@@ -135,7 +139,7 @@ export default function StepperComponent(props){
             });   
         }
         else{
-            snackRef.current.showSnackBar("شماره موبایل معتبر نمی باشد","error");
+            snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.MobileFormat),"error");
         } 
     }
     const handleOperation =()=>{

@@ -15,8 +15,7 @@ export const configApp = (state=initState,action)=>{
             result = {
                 ...state,
                 TLanguageID:action.payload     
-        }
-        
+            }
         return result;
         }
         case SET_FILTER_ELEMENT:
@@ -25,7 +24,7 @@ export const configApp = (state=initState,action)=>{
                 TLanguageID:state.TLanguageID,
                 Elements:action.payload,
             }
-        return elementResult;
+            return elementResult;
         }
         default:
             return state;

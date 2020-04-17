@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
 import Backdrop from '@material-ui/core/Backdrop';
+import {} from './../../Common/Constant';
 
 const useStyles = makeStyles(theme=>({
     modal:{
@@ -41,11 +42,11 @@ const LoadingModal =({setIshoShowModal,isShowModal},props)=>{
             BackdropProps = {{
                 timeout:500
             }}>
-                <div style={{width:'60%',margin:'0 auto'}}>
+                <div style={{width:'60%',margin:'0 auto',borderRadius:18}}>
                     <Fade in={isShowModal}>
                         <div>
-                            <div className={[classes.paper]} style={props.isSm?{ marginTop:'.2rem'}:{ marginTop:'3rem'}} id="ddd">
-                                hello
+                            <div className={[classes.paper],{width:'500'}} style={props.isSm?{ marginTop:'.2rem'}:{ marginTop:'3rem'}} id="ddd">
+                                <img style={{width:'100%',height:'150px',borderRadius:12}} src='\assets\images\PageLoading.gif'></img>
                             </div>
                         </div>
                     </Fade>

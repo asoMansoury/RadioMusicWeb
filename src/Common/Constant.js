@@ -1,5 +1,5 @@
 // export const BaseApiUrl = 'http://185.83.114.167:8016/api';
-export const BaseApiUrl = 'http://192.168.164.2:53094/api';
+export const BaseApiUrl = 'http://192.168.163.2:53094/api';
 
 
 

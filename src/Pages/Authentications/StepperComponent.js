@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme=>({
 }));
 
 function getSteps() {
-    return ['Send', 'Confirm', 'Reset'];
+    return [commonUtility.getElementTitle("SendStepper"), commonUtility.getElementTitle("ConfirmStepper"), commonUtility.getElementTitle("ResetStepper")];
 }
 
 export default function StepperComponent(props){
@@ -81,7 +81,7 @@ export default function StepperComponent(props){
               };
             axios
               .post(BaseApiUrl + '/MessageApi/ResetPassword', data)
-            .then(res => {
+                .then(res => {
               if (res.data.isError === true) {
                 snackRef.current.showSnackBar(res.data.Errors.Message,"error");
               } else {
@@ -120,7 +120,8 @@ export default function StepperComponent(props){
             });   
         }
         else{
-            snackRef.current.showSnackBar(UIErrorMessageCode.InputConfirmationCode,"error");
+            alert(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.InputConfirmationCode));
+            snackRef.current.showSnackBar(commonUtility.getUIErrorMessagesByCode(UIErrorMessageCode.InputConfirmationCode),"error");
         } 
     }
     const SendVerificationCode =()=>{
@@ -210,7 +211,7 @@ export default function StepperComponent(props){
                                     width="50%"
                                     value={mobileValue}
                                     id="mobileReset"
-                                    label='Mobile'
+                                    label={commonUtility.getElementTitle("mobileReset")}
                             ></TextField>
                         </form>
                     </Grid>
@@ -229,7 +230,7 @@ export default function StepperComponent(props){
                                     value={confirmValue}
                                     onChange={(e)=>setConfirmValue(e.target.value)}
                                     id="confirmCodeReset"
-                                    label="Confirm Code"
+                                    label={commonUtility.getElementTitle("confirmCodeReset")}
                                 ></TextField>
                             </div>
                         </form>
@@ -252,7 +253,7 @@ export default function StepperComponent(props){
                                         width="50%"
                                         value={passwordValue}
                                         id="passwordReset"
-                                        label='Password'
+                                        label={commonUtility.getElementTitle("passwordReset")}
                                 ></TextField>
                             </form>
                             </div>
@@ -261,8 +262,10 @@ export default function StepperComponent(props){
                     <Grid item xs={12} style={{bottom:0}}>
                             <Typography>This is</Typography>
                             <div>
-                                <Button disabled={activeBack} id="btnBackRes" onClick={handleBack}>Back</Button>
-                                <Button disabled={activeNext} className={classes.button} id="btnNextRes" variant="contained" color="primary" onClick={handleNext}  >{currentStep>=2?'OK':'Next'}</Button>
+                                <Button disabled={activeBack} id="btnBackRes" onClick={handleBack}>{commonUtility.getElementTitle("btnBackRes")}</Button>
+                                <Button disabled={activeNext} className={classes.button} id="btnNextRes" variant="contained" color="primary" onClick={handleNext}  >
+                                    {currentStep>=2?commonUtility.getElementTitle("btnOkRes"):commonUtility.getElementTitle("btnNextRes")}
+                                </Button>
                             </div>
                     </Grid>
                 </Grid>

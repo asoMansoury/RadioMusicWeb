@@ -99,17 +99,14 @@ const  SignIn=(props)=>{
 
             React.useEffect(()=>{
                 axios.get(BaseApiUrl + '/LanguageApi/GetLanguages').then(res => {
-
                     if(res.data.isError==true){
                     }else{
                         setLanguageHook(res.data.TLanguages);
                     }
                 });
-                
-                
-                
-                commonUtility.setTLanguageCode(TLanguageID.English);
-                props.setFilterLanguage({Key:'Authentication',TLanguageID:TLanguageID.English})
+                commonUtility.setTLanguageCode(props.configApp.TLanguageID);
+                commonUtility.setUIErrorMessages(props.configApp.TLanguageID)
+                props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
             }, [])
             
             return (

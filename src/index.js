@@ -6,6 +6,7 @@ import MainRoute from './MainRoute';
 import {BrowserRouter} from 'react-router-dom';
 import {Component} from 'react';
 import { persistStore } from 'redux-persist';
+
 import {connect} from 'react-redux';
 
 export default class Preloader extends Component{
@@ -23,7 +24,7 @@ export default class Preloader extends Component{
 
     render(){
         if(!this.state.rehydrated){
-            return<div>helloooo</div>
+            return <img style={{width:'100%',height:'100%'}} src='\assets\images\PageLoading.gif'></img>
         }
         return (    
         <Provider  store={store}>

@@ -157,7 +157,7 @@ const AdminPanel =(props)=>{
                                                         >
                                                     </CardHeader>
                                                         <CardContent style={{width:'100%',marginTop:30}}>
-                                                            <ManageRoles></ManageRoles>
+                                                            <ManageRoles {...props}></ManageRoles>
                                                         </CardContent>
                                                 </Card>
                                             </Grid>   
@@ -172,11 +172,11 @@ const AdminPanel =(props)=>{
 
 
 const mapStateToProps = state => {
-    console.log("State : ",state);
     return {
         isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
         userInformation:state.UserIsLogin.userInformation,
-        isLoaded:state._persist.rehydrated
+        isLoaded:state._persist.rehydrated,
+        configApp: state.configApp,
     };
   };
   

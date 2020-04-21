@@ -103,7 +103,7 @@ const  SignIn=(props)=>{
                     }else{
                         setLanguageHook(res.data.TLanguages);
                     }
-                });
+                })
                 commonUtility.setTLanguageCode(props.configApp.TLanguageID);
                 commonUtility.setUIErrorMessages(props.configApp.TLanguageID)
                 props.setFilterLanguage({Key:'Authentication',TLanguageID:props.configApp.TLanguageID})
@@ -220,6 +220,8 @@ const mapDispatchToProps = dispath => {
                 commonUtility.setElements(res.data.FronEndPages)
                 dispath(setFilterLanguage(res.data.FronEndPages))
               }
+            }).catch(function(error){
+                console.log("inquery",error);
             });  
         }
     };

@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import axios from 'axios';
-import {BaseApiUrl} from './../../Common/Constant';
+import {BaseApiUrl,RoutesKey,PlatformType} from './../../Common/Constant';
 import SnackBarComponent from './../CommonComponents/SnackBarComponent';
 import commonUtility from './../../Common/utiliy';
 import {connect} from 'react-redux';
@@ -91,21 +91,25 @@ function SignInComponent(props) {
             TLanguageCode:commonUtility.getTLanguageCode()
           };
         setIsShowModal(true);
-        axios.post(BaseApiUrl + '/UserApi/Login', data).then(res => {
+        axios.post(BaseApiUrl + '/UserApi/Login', data,
+        {headers: { PlatformType: PlatformType, TLanguageCode:data.TLanguageCode}}).then(res => {
             if(res.data.isError==true){
                 childRef.current.showSnackBar(res.data.Errors.Message,"error");
             }else{
                 var userInfo = {
                     mobile:res.data.Mobile,
                     userName:res.data.userName,
-                    email:res.data.email
+                    email:res.data.email,
+                    WebToken:res.data.WebToken
                 }
                 props.setUserLogin(true);
                 props.saveUserInformation(userInfo);
                 
             }
             handleCloseLoadingModal();
-        });
+        }).catch(function(error){
+            console.log(error);
+        })
 
     }
     const  handleCloseLoadingModal =()=>{
@@ -119,7 +123,7 @@ function SignInComponent(props) {
     {
     
     if(props.isUserLoggedIn){
-       return <Redirect to="/AdminPanel"></Redirect>
+       return <Redirect to={RoutesKey.AdminPanel}></Redirect>
     }else
     return(
         <div className={classes.paper}>

@@ -172,6 +172,7 @@ const AdminPanel =(props)=>{
 
 
 const mapStateToProps = state => {
+    console.log("State : ",state);
     return {
         isUserLoggedIn: state.UserIsLogin.isUserLoggedIn,
         userInformation:state.UserIsLogin.userInformation,

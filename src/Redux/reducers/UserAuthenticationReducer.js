@@ -4,7 +4,8 @@ const initState = {
     userInformation:{
         userName:'',
         mobile:'',
-        email:''
+        email:'',
+        WebToken:''
     }
 }
 
@@ -19,7 +20,6 @@ export const UserIsLogin = (state=initState,action)=>{
                 isUserLoggedIn:action.payload
                 
             }
-            console.log("result : ",action.payload,result);
             return result;
         }
         case SET_USER_INOFORMATION:

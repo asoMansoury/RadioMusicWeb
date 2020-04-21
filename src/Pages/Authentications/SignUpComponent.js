@@ -71,8 +71,7 @@ export default function SignInComponent(props) {
                         checkDisableBtn();
                       }
                     }
-                  });
-                    
+                  });     
             }
 
         }

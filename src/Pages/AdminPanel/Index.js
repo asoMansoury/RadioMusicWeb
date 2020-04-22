@@ -2,29 +2,20 @@
 import React, { useState } from 'react';
 import {makeStyles,useTheme} from '@material-ui/core/styles';
 import AppBarCustom from './Components/AppBarCustom';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import Drawer from '@material-ui/core/Drawer';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import './../../Pages/Styles/commonStyles.css';
 import {IconButton,Card, CardHeader,CardContent, Grid} from '@material-ui/core';
 import clsx from 'clsx';
 import ManageRoles from './Components/ManageRoles';
 import {connect} from 'react-redux';
 import {isUserLogin,saveUserInformation} from './../../Redux/actions/actionType'
 import {Redirect} from 'react-router-dom';
-
-//Import Contexts
+import {BaseApiUrl,PlatformType} from './../../Common/Constant';
+import SideBarComponent from './SideBar/SideBarData';
 import AdminPanelContext from '../Context/AdminPanelContext';
-
+import axios from 'axios';
 
 const drawerWidth = 240;
 const useStyles =makeStyles(theme=>({
@@ -74,20 +65,29 @@ const AdminPanel =(props)=>{
         const [open , setOpen] = useState(false);
         const theme = useTheme();
         const isSMMode =useMediaQuery(theme.breakpoints.down('xs'));
-        
+        const [menuItems,setMenuItems] = useState([]);
         const [width, setWidth] = React.useState(window.innerWidth);
         const handleDrawerOpen = ()=>{
             setOpen(!open)
         }
 
-        const handleDrawerClose =() =>{
-            setOpen(false);
-        }
-
         React.useEffect(()=>{
+            axios.post(BaseApiUrl+"/ControllersApi/GetMenus",{},
+            {
+                headers: { 
+                    PlatformType: PlatformType, 
+                    TLanguageCode:props.configApp.TLanguageID,
+                    WebToken:props.userInformation.WebToken
+                }})
+                .then(response=>{
+                    console.log("reponse: ",response.data);
+                    setMenuItems(response.data);
+                }).catch((error)=>{
+                    console.log(error);
+            })
             window.addEventListener('resize',updateWidthAndHeight);
             return () => window.removeEventListener("resize", updateWidthAndHeight);
-        })
+        },[])
         const updateWidthAndHeight = () => {
             setWidth(window.innerWidth);
         };
@@ -108,25 +108,7 @@ const AdminPanel =(props)=>{
                             className={classes.drawerPaper}
                             variant="persistent"
                             open={open}>
-                                <div className={classes.drawerHeader}>
-                                    
-                                    <IconButton onClick={handleDrawerClose} style={{background:"red"}}>
-                                            <ChevronRight /> 
-                                    </IconButton>
-                                </div>
-                                <Divider></Divider>
-                                <List style={isSMMode?{width:width}:{width:'100%'}}>
-                                    <ListItem button key="Manage Roles"></ListItem>
-                                    <ListItemIcon><InboxIcon /></ListItemIcon>
-                                        <ListItemText primary="Manage Roles" />
-                                        {['Manage Roles', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                                        <ListItem button key={text}>
-                                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                        <ListItemText primary={text} />
-                                        </ListItem>
-                                    ))}
-                                </List>
-                                
+                                <SideBarComponent menuItems={menuItems} width={width} isSMMode={isSMMode} setOpen={setOpen}></SideBarComponent>
                         </Drawer>
                         <main 
                             className={clsx(classes.content,"CardBody", {

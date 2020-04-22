@@ -92,7 +92,11 @@ function SignInComponent(props) {
           };
         setIsShowModal(true);
         axios.post(BaseApiUrl + '/UserApi/Login', data,
-        {headers: { PlatformType: PlatformType, TLanguageCode:data.TLanguageCode}}).then(res => {
+        {headers: 
+            { 
+                PlatformType: PlatformType, 
+                TLanguageCode:data.TLanguageCode
+            }}).then(res => {
             if(res.data.isError==true){
                 childRef.current.showSnackBar(res.data.Errors.Message,"error");
             }else{

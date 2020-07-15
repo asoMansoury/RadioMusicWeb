@@ -38,6 +38,12 @@ const useStyles = makeStyles(theme =>({
        alignItems:'center'
 
     },
+    signInStyle:{
+        height: '100vh'
+    },
+    signUpStyle:{
+        height: '100vh'
+    },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
@@ -128,8 +134,8 @@ const  SignIn=(props)=>{
                                         <Tab id="SignUpTab" label={commonUtility.getElementTitle("SignUpTab")} icon={<SignUpIcon></SignUpIcon>} style={{maxWidth:'100%',width:"50%"}}></Tab>
                                     </Tabs>
                             </AppBar>
-                            <TabPanel value={value} index={0}>
-                                <SingInComponent>
+                            <TabPanel className={classes.signInStyle} value={value} index={0} >
+                                <SingInComponent >
                                         <Grid container>
                                             <Grid item xs>
                                                 <Link href="/Authentication#" variant ="body2" id="forgotPasswordLnk" onClick={handleClickModal}> 
@@ -147,8 +153,8 @@ const  SignIn=(props)=>{
                                         </Box>
                                 </SingInComponent>
                             </TabPanel>
-                            <TabPanel value={value} index={1}>
-                                <SingUpComponent>
+                            <TabPanel className={classes.signUpStyle} value={value} index={1} >
+                                <SingUpComponent >
                                     <Grid container>
                                         <Grid item xs>
                                             <Link id="forgotPasswordLnk" href="/Authentication#" variant ="body2" onClick={handleClickModal}>
@@ -212,6 +218,13 @@ const mapDispatchToProps = dispath => {
                 Key: value.Key,
                 PlatformType:5
             }
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    "Access-Control-Allow-Origin": true,
+                    "Access-Control-Allow-Credentials": true,
+                }
+            };
             axios.post(BaseApiUrl + '/FrontEndApi/inqueryPage', data)
             .then(res => {
               if (res.data.isError === true) {

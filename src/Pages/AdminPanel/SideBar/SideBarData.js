@@ -15,7 +15,6 @@ import {IconButton} from '@material-ui/core';
     const handleDrawerClose =() =>{
         props.setOpen(false);
     }
-    console.log(props.menuItems)
     return (
         <div>
             <div >
@@ -28,7 +27,7 @@ import {IconButton} from '@material-ui/core';
                     {props.menuItems.map((data,index) => (
                     <ListItem button key={data.ID}>
                     <ListItemIcon>{index % 2 === 0 ? <InboxOutlined /> : <InboxOutlined />}</ListItemIcon>
-                    <ListItemText primary={data.ControllerName} />
+                    <ListItemText primary={data.TLCControllerName} />
                     </ListItem>
                 ))}
             </List>

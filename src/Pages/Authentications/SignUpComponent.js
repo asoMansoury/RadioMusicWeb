@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme =>({
     },
     submit:{
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: `#388E3C !important`
     }
 }));
 
@@ -260,8 +261,7 @@ export default function SignInComponent(props) {
                         value={confirmPasswordValue}
                         >
                     </TextField>
-                </ThemeProvider>
-                <Button
+                    <Button
                 disabled={disableSignUpBtn}
                     type="button"
                     fullWidth
@@ -272,6 +272,8 @@ export default function SignInComponent(props) {
                 >
                     {commonUtility.getElementTitle("btnRegister")}
                 </Button>
+                </ThemeProvider>
+
                 {props.children}
             </form>
             <SnackBarComponent ref={snackRef}></SnackBarComponent>

@@ -30,3 +30,8 @@ export const UIErrorMessageCode = {
     PasswordAndConfirmPasswordIsNotSame:"PACIN",
     PasswordAndConfirmPasswordIsCorrect:"PACIV"
 }
+
+export const apiForms ={
+    UserApiController:"UserApiController",
+    RolesApiController:"RolesApiController"
+}

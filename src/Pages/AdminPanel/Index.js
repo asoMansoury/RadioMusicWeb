@@ -12,7 +12,7 @@ import ManageRoles from './Components/ManageRoles';
 import {connect} from 'react-redux';
 import {isUserLogin,saveUserInformation} from './../../Redux/actions/actionType'
 import {Redirect} from 'react-router-dom';
-import {BaseApiUrl,PlatformType} from './../../Common/Constant';
+import {BaseApiUrl,PlatformType,apiForms} from './../../Common/Constant';
 import SideBarComponent from './SideBar/SideBarData';
 import AdminPanelContext from '../Context/AdminPanelContext';
 import axios from 'axios';
@@ -80,7 +80,6 @@ const AdminPanel =(props)=>{
                     WebToken:props.userInformation.WebToken
                 }})
                 .then(response=>{
-                    console.log("reponse: ",response.data);
                     setMenuItems(response.data);
                 }).catch((error)=>{
                     console.log(error);
@@ -134,12 +133,12 @@ const AdminPanel =(props)=>{
                                                                 <MoreVertIcon />
                                                             </IconButton>
                                                         }
-                                                        title="مدیریت نقش ها"
+                                                        title={menuItems.filter(z=>z.ControllerName==apiForms.RolesApiController)[0]!=undefined? menuItems.filter(z=>z.ControllerName==apiForms.RolesApiController)[0].TLCControllerName:""}
                                                         // subheader="September 14, 2016"
                                                         >
                                                     </CardHeader>
                                                         <CardContent style={{width:'100%',marginTop:30}}>
-                                                            <ManageRoles {...props}></ManageRoles>
+                                                            <ManageRoles controllerData= {menuItems.filter(z=>z.ControllerName==apiForms.RolesApiController)[0]}  {...props}></ManageRoles>
                                                         </CardContent>
                                                 </Card>
                                             </Grid>   

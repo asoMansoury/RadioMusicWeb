@@ -29,7 +29,7 @@ import { Fab, Action } from 'react-tiny-fab';
 import axios from 'axios';
 const useStyles = makeStyles(theme =>({
     root:{
-        height:'100vh'
+        minHeight:'150vh'
     },
     paper:{
        margin:theme.spacing(8,4) ,
@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme =>({
 
     },
     signInStyle:{
-        height: '100vh'
+        // minHeight: '130vh'
     },
     signUpStyle:{
-        height: '100vh'
+        // minHeight: '130vh'
     },
     avatar: {
         margin: theme.spacing(1),
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme =>({
         backgroundImage:'url(https://source.unsplash.com/random)',
         backgroundRepeat:'no-repeat',
         backgroundSize:'cover',
-        backgroundPosition:'center'
+        backgroundPosition:'center',
     },
     form:{
         width:'100%',
